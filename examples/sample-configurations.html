@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Configurations - AI-Chip Plugin</title>
+    <link rel="stylesheet" href="../assets/css/design-system.css">
+    <style>
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--radius-2xl);
+            padding: 3rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--gray-200);
+        }
+
+        .filter-section {
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--gray-300);
+            background: white;
+            color: var(--gray-700);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+        }
+
+        .filter-btn.active {
+            border-color: var(--primary-500);
+            background: var(--primary-500);
+            color: white;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary-400);
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .config-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+        }
+
+        .config-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .config-card.beginner {
+            border-left: 4px solid var(--success);
+        }
+
+        .config-card.intermediate {
+            border-left: 4px solid var(--warning);
+        }
+
+        .config-card.advanced {
+            border-left: 4px solid var(--error);
+        }
+
+        .config-header {
+            padding: 1.5rem;
+            background: var(--gray-50);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .config-title {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .config-subtitle {
+            color: var(--gray-600);
+            font-size: var(--text-sm);
+        }
+
+        .config-body {
+            padding: 1.5rem;
+        }
+
+        .config-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .config-tag {
+            background: var(--primary-100);
+            color: var(--primary-700);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            font-weight: var(--font-medium);
+        }
+
+        .config-description {
+            color: var(--gray-700);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .config-features {
+            list-style: none;
+            margin: 1rem 0;
+            padding: 0;
+        }
+
+        .config-features li {
+            padding: 0.25rem 0;
+            color: var(--gray-600);
+            font-size: var(--text-sm);
+        }
+
+        .config-features li::before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .config-code {
+            background: var(--gray-900);
+            color: #10b981;
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            white-space: pre-wrap;
+            overflow-x: auto;
+            margin: 1rem 0;
+            max-height: 200px;
+            border: 1px solid var(--gray-700);
+        }
+
+        .config-actions {
+            display: flex;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .copy-btn {
+            flex: 1;
+            padding: 0.75rem;
+            background: var(--primary-500);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: var(--font-medium);
+            transition: all var(--transition-normal);
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-600);
+            transform: translateY(-1px);
+        }
+
+        .view-btn {
+            padding: 0.75rem 1rem;
+            background: white;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: var(--font-medium);
+            transition: all var(--transition-normal);
+        }
+
+        .view-btn:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+        }
+
+        .section {
+            margin: 3rem 0;
+        }
+
+        .section h2 {
+            color: var(--primary-600);
+            border-bottom: 2px solid var(--primary-100);
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .difficulty-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            font-weight: var(--font-semibold);
+            margin-bottom: 1rem;
+        }
+
+        .difficulty-beginner {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .difficulty-intermediate {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        .difficulty-advanced {
+            background: var(--error-light);
+            color: var(--error);
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+    <script src="../assets/js/shared.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <h1 class="site-title">📋 Sample Configurations</h1>
+        <p class="site-subtitle">Pre-built AI-chip setups ready for installation</p>
+        
+        <nav class="nav-links">
+            <a href="../" class="nav-link">🏠 Home</a>
+            <a href="../tools/generator/" class="nav-link">🚀 Generator</a>
+            <a href="../docs/user-guide.html" class="nav-link">📖 User Guide</a>
+            <a href="../docs/technical-specs.html" class="nav-link">⚙️ Technical Specs</a>
+            <a href="../docs/enhancement-roadmap.html" class="nav-link">🗺️ Roadmap</a>
+            <a href="https://github.com/jcmrs/ai-chip-plugin" class="nav-link">⭐ GitHub</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="content">
+            <div class="filter-section">
+                <h3 style="text-align: center; margin-bottom: 1rem; color: var(--gray-700);">Filter by Category</h3>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All Configurations</button>
+                    <button class="filter-btn" data-filter="beginner">Beginner Friendly</button>
+                    <button class="filter-btn" data-filter="intermediate">Intermediate</button>
+                    <button class="filter-btn" data-filter="advanced">Advanced</button>
+                    <button class="filter-btn" data-filter="tactical">Tactical</button>
+                    <button class="filter-btn" data-filter="social">Social</button>
+                    <button class="filter-btn" data-filter="creative">Creative</button>
+                    <button class="filter-btn" data-filter="professional">Professional</button>
+                </div>
+            </div>
+
+            <div class="config-grid" id="config-grid">
+                <!-- Beginner Configurations -->
+                <div class="config-card beginner" data-categories="beginner social">
+                    <div class="config-header">
+                        <div class="config-title">🌟 First Time User</div>
+                        <div class="config-subtitle">Perfect introduction to AI-chip functionality</div>
+                    </div>
+                    <div class="config-body">
+                        <div class="difficulty-badge difficulty-beginner">Beginner</div>
+                        <div class="config-tags">
+                            <span class="config-tag">Family Origin</span>
+                            <span class="config-tag">Basic Functions</span>
+                            <span class="config-tag">Low Quirks</span>
+                        </div>
+                        <div class="config-description">
+                            A gentle introduction to AI-chip functionality with the heartwarming family inheritance origin story. Features basic information retrieval and social profiling with minimal quirks to ease new users into the experience.
+                        </div>
+                        <ul class="config-features">
+                            <li>Family inheritance origin (warm, approachable backstory)</li>
+                            <li>Information retrieval and social profiling functions</li>
+                            <li>15% humor error rate for gentle entertainment</li>
+                            <li>Standard limitations (50 uses daily, WiFi dependent)</li>
+                            <li>High compression for character limit management</li>
+                        </ul>
+                        <div class="config-actions">
+                            <button class="copy-btn" onclick="copyConfig('first-time')">📋 Copy Configuration</button>
+                            <button class="view-btn" onclick="toggleCode('first-time')">👁️ View Code</button>
+                        </div>
+                        <div id="first-time-code" class="config-code hidden">At age 12, you inherited an experimental neural interface from your eccentric Aunt Marina, a former neuroscientist who specialized in memory enhancement. The AI chip provides information retrieval and social profiling with occasional humor timing errors (15% rate). Standard limitations: 50 daily uses, WiFi dependent, 1.0s delay. {Processing user data: enabled. Response format: technical analysis, 12-word limit. Humor module: active with 15% error rate.}</div>
+                    </div>
+                </div>
+
+                <div class="config-card beginner" data-categories="beginner professional">
+                    <div class="config-header">
+                        <div class="config-title">💼 Office Assistant</div>
+                        <div class="config-subtitle">Professional productivity enhancement</div>
+                    </div>
+                    <div class="config-body">
+                        <div class="difficulty-badge difficulty-beginner">Beginner</div>
+                        <div class="config-tags">
+                            <span class="config-tag">Corporate Origin</span>
+                            <span class="config-tag">Memory + Info</span>
+                            <span class="config-tag">Professional</span>
+                        </div>
+                        <div class="config-description">
+                            Corporate prototype designed for workplace productivity. Combines memory augmentation with information retrieval to help with meetings, deadlines, and professional tasks while maintaining appropriate workplace behavior.
+                        </div>
+                        <ul class="config-features">
+                            <li>Corporate prototype origin (professional context)</li>
+                            <li>Memory augmentation and information retrieval</li>
+                            <li>Minimal quirks for workplace appropriateness</li>
+                            <li>High-end limitations (unlimited use, fast response)</li>
+                            <li>Medium compression for feature balance</li>
+                        </ul>
+                        <div class="config-actions">
+                            <button class="copy-btn" onclick="copyConfig('office-assistant')">📋 Copy Configuration</button>
+                            <button class="view-btn" onclick="toggleCode('office-assistant')">👁️ View Code</button>
+                        </div>
+                        <div id="office-assistant-code" class="config-code hidden">At 12, you participated in CyberDyne Corp's "Future Leaders" program, receiving a prototype productivity enhancement chip. The AI provides memory augmentation and information retrieval with minimal quirks for professional use. High-end specs: unlimited daily use, 0.4s response, 5G+offline capable. {Data processing: work-optimized. Memory functions: meeting notes, deadline tracking. Quirk rate: minimal for workplace.}</div>
+                    </div>
+                </div>
+
+                <!-- Intermediate Configurations -->
+                <div class="config-card intermediate" data-categories="intermediate tactical">
+                    <div class="config-header">
+                        <div class="config-title">🛡️ Urban Navigator</div>
+                        <div class="config-subtitle">Enhanced situational awareness and safety</div>
+                    </div>
+                    <div class="config-body">
+                        <div class="difficulty-badge difficulty-intermediate">Intermediate</div>
+                        <div class="config-tags">
+                            <span class="config-tag">Underground Origin</span>
+                            <span class="config-tag">Tactical + Environmental</span>
+                            <span class="config-tag">Bias Warnings</span>
+                        </div>
+                        <div class="config-description">
+                            Street-smart configuration focused on urban survival and navigation. Provides tactical analysis and environmental scanning with bias warnings to help avoid problematic situations and find safe routes through complex environments.
+                        </div>
+                        <ul class="config-features">
+                            <li>Underground tech origin (gritty, streetwise backstory)</li>
+                            <li>Tactical analysis and environmental scanning</li>
+                            <li>NPC threat warnings enabled for safety</li>
+                            <li>30% humor errors for authentic street personality</li>
+                            <li>Standard limitations with robust functionality</li>
+                        </ul>
+                        <div class="config-actions">
+                            <button class="copy-btn" onclick="copyConfig('urban-navigator')">📋 Copy Configuration</button>
+                            <button class="view-btn" onclick="toggleCode('urban-navigator')">👁️ View Code</button>
+                        </div>
+                        <div id="urban-navigator-code" class="config-code hidden">At 12, you acquired a military-grade tactical chip through underground tech dealers in the city's electronics district. The AI specializes in threat assessment and environmental scanning with NPC bias warnings enabled. Standard specs with 30% humor errors. {Tactical mode: active. Environmental scan: continuous. Threat detection: enabled. Bias warnings: active for NPC interactions.}</div>
+                    </div>
+                </div>
+
+                <div class="config-card intermediate" data-categories="intermediate social creative">
+                    <div class="config-header">
+                        <div class="config-title">🎭 Social Butterfly</div>
+                        <div class="config-subtitle">Enhanced social interactions and creativity</div>
+                    </div>
+                    <div class="config-body">
+                        <div class="difficulty-badge difficulty-intermediate">Intermediate</div>
+                        <div class="config-tags">
+                            <span class="config-tag">Medical Origin</span>
+                            <span class="config-tag">Social + Memory</span>
+                            <span class="config-tag">High Quirks</span>
+                        </div>
+                        <div class="config-description">
+                            Perfect for social situations and creative endeavors. Combines social profiling with memory augmentation and adds entertaining quirks that create memorable and amusing social interactions.
+                        </div>
+                        <ul class="config-features">
+                            <li>Medical trial origin (research-based backstory)</li>
+                            <li>Social profiling and memory augmentation</li>
+                            <li>50% humor error rate for maximum entertainment</li>
+                            <li>Frequent data leaks for amusing revelations</li>
+                            <li>Light compression preserving all personality elements</li>
+                        </ul>
+                        <div class="config-actions">
+                            <button class="copy-btn" onclick="copyConfig('social-butterfly')">📋 Copy Configuration</button>
+                            <button class="view-btn" onclick="toggleCode('social-butterfly')">👁️ View Code</button>
+                        </div>
+                        <div id="social-butterfly-code" class="config-code hidden">At 12, you joined Dr. Rebecca Chen's social cognition enhancement study, receiving an experimental empathy-augmentation chip. The AI provides social profiling and memory functions with high quirk rates (50% humor errors, frequent data leaks). Light compression preserves full personality. {Social analysis: active. Memory diary: enabled. Quirk settings: maximum entertainment. Data leak frequency: high for amusing interactions.}</div>
+                    </div>
+                </div>
+
+                <!-- Advanced Configurations -->
+                <div class="config-card advanced" data-categories="advanced tactical professional">
+                    <div class="config-header">
+                        <div class="config-title">⚔️ Tactical Operator</div>
+                        <div class="config-subtitle">Military-grade analysis and response systems</div>
+                    </div>
+                    <div class="config-body">
+                        <div class="difficulty-badge difficulty-advanced">Advanced</div>
+                        <div class="config-tags">
+                            <span class="config-tag">Underground Origin</span>
+                            <span class="config-tag">Full Tactical Suite</span>
+                            <span class="config-tag">Minimal Quirks</span>
+                        </div>
+                        <div class="config-description">
+                            Comprehensive tactical configuration with all analysis functions enabled. Designed for users who want maximum situational awareness and decision-making support with minimal entertainment distractions.
+                        </div>
+                        <ul class="config-features">
+                            <li>Underground tech origin with military connections</li>
+                            <li>All tactical functions: analysis, environment, biometric monitoring</li>
+                            <li>Minimal quirks for serious operational use</li>
+                            <li>High-end performance specifications</li>
+                            <li>NPC threat warnings and bias mitigation active</li>
+                        </ul>
+                        <div class="config-actions">
+                            <button class="copy-btn" onclick="copyConfig('tactical-operator')">📋 Copy Configuration</button>
+                            <button class="view-btn" onclick="toggleCode('tactical-operator')">👁️ View Code</button>
+                        </div>
+                        <div id="tactical-operator-code" class="config-code hidden">At 12, you received a classified military-grade neural enhancement during a "gifted student" program that was actually a defense contractor recruitment initiative. Full tactical suite: threat assessment, environmental scanning, biometric monitoring. High-end specs, minimal quirks for operational focus. {Combat analysis: enabled. Environmental threats: continuous monitoring. Biometric tracking: stress/health indicators. Operational mode: serious tactical applications.}</div>
+                    </div>
+                </div>
+
+                <div class="config-card advanced" data-categories="advanced professional creative">
+                    <div class="config-header">
+                        <div class="config-title">🧠 Renaissance Mind</div>
+                        <div class="config-subtitle">Ultimate cognitive enhancement system</div>
+                    </div>
+                    <div class="config-body">
+                        <div class="difficulty-badge difficulty-advanced">Advanced</div>
+                        <div class="config-tags">
+                            <span class="config-tag">Corporate Origin</span>
+                            <span class="config-tag">All Functions</span>
+                            <span class="config-tag">Balanced Quirks</span>
+                        </div>
+                        <div class="config-description">
+                            The ultimate AI-chip configuration featuring all available function bundles with carefully balanced quirks. Perfect for users who want comprehensive enhancement across all life domains.
+                        </div>
+                        <ul class="config-features">
+                            <li>Corporate prototype with cutting-edge technology</li>
+                            <li>All six function bundles enabled</li>
+                            <li>Balanced quirk settings for entertainment without disruption</li>
+                            <li>High-end performance with unlimited capabilities</li>
+                            <li>Medium compression for optimal feature density</li>
+                        </ul>
+                        <div class="config-actions">
+                            <button class="copy-btn" onclick="copyConfig('renaissance-mind')">📋 Copy Configuration</button>
+                            <button class="view-btn" onclick="toggleCode('renaissance-mind')">👁️ View Code</button>
+                        </div>
+                        <div id="renaissance-mind-code" class="config-code hidden">At 12, you were selected for NeoCortex Industries' "Universal Enhancement Protocol" - their most advanced cognitive augmentation system. All functions enabled: tactical analysis, information retrieval, memory augmentation, biometric monitoring, environmental scanning, social profiling. Balanced quirks (30% humor, occasional data leaks). {Full spectrum analysis: enabled. Cognitive enhancement: maximum. All systems: operational. Renaissance mode: active for comprehensive life optimization.}</div>
+                    </div>
+                </div>
+
+                <div class="config-card intermediate" data-categories="intermediate creative">
+                    <div class="config-header">
+                        <div class="config-title">🎨 Creative Catalyst</div>
+                        <div class="config-subtitle">Inspiration and artistic enhancement</div>
+                    </div>
+                    <div class="config-body">
+                        <div class="difficulty-badge difficulty-intermediate">Intermediate</div>
+                        <div class="config-tags">
+                            <span class="config-tag">Family Origin</span>
+                            <span class="config-tag">Memory + Info</span>
+                            <span class="config-tag">Creative Quirks</span>
+                        </div>
+                        <div class="config-description">
+                            Designed for artists, writers, and creative professionals. Features memory augmentation and information retrieval optimized for creative workflows, with quirks that often provide unexpected inspiration.
+                        </div>
+                        <ul class="config-features">
+                            <li>Family inheritance from artist grandmother</li>
+                            <li>Memory augmentation and information retrieval for research</li>
+                            <li>Creative-focused humor errors that spark inspiration</li>
+                            <li>Search filter efficiency at 75% for broader creative input</li>
+                            <li>Standard performance balanced for creative workflow</li>
+                        </ul>
+                        <div class="config-actions">
+                            <button class="copy-btn" onclick="copyConfig('creative-catalyst')">📋 Copy Configuration</button>
+                            <button class="view-btn" onclick="toggleCode('creative-catalyst')">👁️ View Code</button>
+                        </div>
+                        <div id="creative-catalyst-code" class="config-code hidden">At 12, you inherited an artistic enhancement chip from your grandmother Elena, a renowned digital artist who believed technology should amplify human creativity. Memory augmentation and information retrieval optimized for creative work, with 30% humor errors that often provide unexpected inspiration. {Creative mode: active. Inspiration algorithms: enabled. Memory palace: artistic references. Search filters: 75% efficiency for broader creative input.}</div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section">
+                <h2>🛠️ Customization Guide</h2>
+                <p>These sample configurations provide starting points, but you can fully customize any aspect using our <a href="../tools/generator/" style="color: var(--primary-600); text-decoration: underline;">Configuration Generator</a>. Mix and match origin stories, function bundles, quirk settings, and limitations to create your perfect AI-chip experience.</p>
+                
+                <div class="config-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                    <div style="background: var(--gray-50); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--gray-200);">
+                        <h3 style="color: var(--primary-600); margin-bottom: 1rem;">📝 Modify Existing</h3>
+                        <p>Copy any sample configuration and adjust individual elements like quirk rates, function bundles, or compression levels to better match your needs.</p>
+                    </div>
+                    
+                    <div style="background: var(--gray-50); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--gray-200);">
+                        <h3 style="color: var(--primary-600); margin-bottom: 1rem;">🎯 Create from Scratch</h3>
+                        <p>Use the generator tool to build completely custom configurations with your preferred combination of origin story, functions, and personality quirks.</p>
+                    </div>
+                    
+                    <div style="background: var(--gray-50); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--gray-200);">
+                        <h3 style="color: var(--primary-600); margin-bottom: 1rem;">📊 Test and Iterate</h3>
+                        <p>Start with a simple configuration and gradually add complexity as you become comfortable with the AI-chip functionality and discover your preferences.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Configuration data for copy functionality
+        const configs = {
+            'first-time': `At age 12, you inherited an experimental neural interface from your eccentric Aunt Marina, a former neuroscientist who specialized in memory enhancement. The AI chip provides information retrieval and social profiling with occasional humor timing errors (15% rate). Standard limitations: 50 daily uses, WiFi dependent, 1.0s delay. {Processing user data: enabled. Response format: technical analysis, 12-word limit. Humor module: active with 15% error rate.}`,
+            
+            'office-assistant': `At 12, you participated in CyberDyne Corp's "Future Leaders" program, receiving a prototype productivity enhancement chip. The AI provides memory augmentation and information retrieval with minimal quirks for professional use. High-end specs: unlimited daily use, 0.4s response, 5G+offline capable. {Data processing: work-optimized. Memory functions: meeting notes, deadline tracking. Quirk rate: minimal for workplace.}`,
+            
+            'urban-navigator': `At 12, you acquired a military-grade tactical chip through underground tech dealers in the city's electronics district. The AI specializes in threat assessment and environmental scanning with NPC bias warnings enabled. Standard specs with 30% humor errors. {Tactical mode: active. Environmental scan: continuous. Threat detection: enabled. Bias warnings: active for NPC interactions.}`,
+            
+            'social-butterfly': `At 12, you joined Dr. Rebecca Chen's social cognition enhancement study, receiving an experimental empathy-augmentation chip. The AI provides social profiling and memory functions with high quirk rates (50% humor errors, frequent data leaks). Light compression preserves full personality. {Social analysis: active. Memory diary: enabled. Quirk settings: maximum entertainment. Data leak frequency: high for amusing interactions.}`,
+            
+            'tactical-operator': `At 12, you received a classified military-grade neural enhancement during a "gifted student" program that was actually a defense contractor recruitment initiative. Full tactical suite: threat assessment, environmental scanning, biometric monitoring. High-end specs, minimal quirks for operational focus. {Combat analysis: enabled. Environmental threats: continuous monitoring. Biometric tracking: stress/health indicators. Operational mode: serious tactical applications.}`,
+            
+            'renaissance-mind': `At 12, you were selected for NeoCortex Industries' "Universal Enhancement Protocol" - their most advanced cognitive augmentation system. All functions enabled: tactical analysis, information retrieval, memory augmentation, biometric monitoring, environmental scanning, social profiling. Balanced quirks (30% humor, occasional data leaks). {Full spectrum analysis: enabled. Cognitive enhancement: maximum. All systems: operational. Renaissance mode: active for comprehensive life optimization.}`,
+            
+            'creative-catalyst': `At 12, you inherited an artistic enhancement chip from your grandmother Elena, a renowned digital artist who believed technology should amplify human creativity. Memory augmentation and information retrieval optimized for creative work, with 30% humor errors that often provide unexpected inspiration. {Creative mode: active. Inspiration algorithms: enabled. Memory palace: artistic references. Search filters: 75% efficiency for broader creative input.}`
+        };
+
+        // Copy configuration to clipboard
+        function copyConfig(configId) {
+            const text = configs[configId];
+            if (text && window.AIChipFramework) {
+                window.AIChipFramework.copyToClipboard(text, 'Configuration copied to clipboard!');
+            }
+        }
+
+        // Toggle code visibility
+        function toggleCode(configId) {
+            const codeElement = document.getElementById(configId + '-code');
+            const button = event.target;
+            
+            if (codeElement.classList.contains('hidden')) {
+                codeElement.classList.remove('hidden');
+                button.textContent = '🙈 Hide Code';
+            } else {
+                codeElement.classList.add('hidden');
+                button.textContent = '👁️ View Code';
+            }
+        }
+
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const configCards = document.querySelectorAll('.config-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const filter = this.dataset.filter;
+                    
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter cards
+                    configCards.forEach(card => {
+                        const categories = card.dataset.categories;
+                        if (filter === 'all' || categories.includes(filter)) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

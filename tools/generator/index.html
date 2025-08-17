@@ -3,244 +3,683 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Chip Plugin Configuration Generator</title>
+    <title>AI-Chip Configuration Generator</title>
+    <link rel="stylesheet" href="../../assets/css/design-system.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
-        .header { text-align: center; color: white; margin-bottom: 30px; }
-        .header h1 { font-size: 2.5em; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
-        .header p { font-size: 1.1em; opacity: 0.9; margin-bottom: 20px; }
-        .nav-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-        .nav-link { color: white; text-decoration: none; padding: 8px 16px; background: rgba(255, 255, 255, 0.2); border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.3); transition: all 0.3s ease; }
-        .nav-link:hover { background: rgba(255, 255, 255, 0.3); transform: translateY(-1px); }
-        .container { max-width: 1200px; margin: 0 auto; background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); }
-        .config-section { margin-bottom: 30px; background: #f8f9fa; padding: 20px; border-radius: 12px; border-left: 4px solid #667eea; }
-        .section-title { font-size: 1.4em; color: #333; margin-bottom: 15px; font-weight: 600; }
-        .radio-group, .checkbox-group { display: grid; gap: 10px; }
-        .radio-option, .checkbox-option { display: flex; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e9ecef; cursor: pointer; transition: all 0.3s ease; }
-        .radio-option:hover, .checkbox-option:hover { border-color: #667eea; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15); }
-        .radio-option.selected, .checkbox-option.selected { border-color: #667eea; background: #f0f3ff; }
-        input[type="radio"], input[type="checkbox"] { margin-right: 12px; transform: scale(1.2); }
-        .option-label { font-weight: 500; color: #333; }
-        .option-description { font-size: 0.9em; color: #666; margin-left: 5px; }
-        .slider-container { margin: 15px 0; }
-        .slider-label { display: block; margin-bottom: 8px; font-weight: 500; color: #333; }
-        select { width: 100%; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1em; background: white; cursor: pointer; transition: border-color 0.3s ease; }
-        select:focus { outline: none; border-color: #667eea; }
-        .preview-section { background: #1a1a1a; color: #00ff00; padding: 20px; border-radius: 12px; margin-top: 30px; font-family: 'Courier New', monospace; }
-        .preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .char-counter { font-weight: bold; padding: 5px 10px; border-radius: 5px; background: #333; color: #00ff00; }
-        .preview-content { background: #000; padding: 15px; border-radius: 8px; border: 1px solid #333; white-space: pre-wrap; font-size: 0.9em; line-height: 1.4; max-height: 400px; overflow-y: auto; }
-        .action-buttons { display: flex; gap: 15px; margin-top: 20px; justify-content: center; }
-        .btn { padding: 15px 30px; border: none; border-radius: 8px; font-size: 1.1em; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; }
-        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3); }
-        .btn-secondary { background: #6c757d; color: white; }
-        .btn-secondary:hover { background: #5a6268; transform: translateY(-2px); }
-        .functions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
-        @media (max-width: 768px) { .container { padding: 20px; } .functions-grid { grid-template-columns: 1fr; } .action-buttons { flex-direction: column; } .nav-links { flex-direction: column; align-items: center; } }
+        .content {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--radius-2xl);
+            padding: 3rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--gray-200);
+        }
+
+        .section {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+        }
+
+        .section h3 {
+            color: var(--primary-600);
+            margin-bottom: 1.5rem;
+            font-size: var(--text-lg);
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .checkbox-item {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .checkbox-item:hover {
+            border-color: var(--primary-300);
+            background: var(--primary-50);
+        }
+
+        .checkbox-item.selected {
+            border-color: var(--primary-500);
+            background: var(--primary-100);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 0.75rem;
+            transform: scale(1.2);
+        }
+
+        .checkbox-item input[type="radio"] {
+            margin-right: 0.75rem;
+            transform: scale(1.2);
+        }
+
+        .option-title {
+            font-weight: var(--font-semibold);
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .option-description {
+            color: var(--gray-600);
+            font-size: var(--text-sm);
+            line-height: 1.4;
+        }
+
+        .char-count {
+            font-size: var(--text-xs);
+            color: var(--gray-500);
+            margin-top: 0.25rem;
+        }
+
+        .preview-section {
+            background: var(--gray-900);
+            color: #10b981;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            margin: 2rem 0;
+            font-family: var(--font-mono);
+        }
+
+        .preview-title {
+            color: white;
+            font-family: var(--font-sans);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: var(--text-lg);
+        }
+
+        .preview-content {
+            background: #000;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--gray-700);
+            line-height: 1.6;
+            white-space: pre-wrap;
+            min-height: 200px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--primary-50);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-lg);
+            margin: 1rem 0;
+            border: 1px solid var(--primary-200);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--primary-600);
+        }
+
+        .stat-label {
+            font-size: var(--text-xs);
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+        }
+
+        .compression-info {
+            background: var(--info-light);
+            border: 1px solid var(--info);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: var(--text-sm);
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .stats-bar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
     </style>
+    <script src="../../assets/js/shared.js"></script>
 </head>
 <body>
-    <div class="header">
-        <h1>🧠 AI-Chip Plugin Generator</h1>
-        <p>Create custom neural interface modules for your Kindroid</p>
-        <div class="nav-links">
+    <header class="site-header">
+        <h1 class="site-title">🚀 AI-Chip Generator</h1>
+        <p class="site-subtitle">Create your perfect AI companion configuration</p>
+        
+        <nav class="nav-links">
             <a href="../../" class="nav-link">🏠 Home</a>
             <a href="../../docs/user-guide.html" class="nav-link">📖 User Guide</a>
             <a href="../../docs/technical-specs.html" class="nav-link">⚙️ Technical Specs</a>
+            <a href="../../docs/enhancement-roadmap.html" class="nav-link">🗺️ Roadmap</a>
             <a href="../../examples/sample-configurations.html" class="nav-link">📋 Examples</a>
             <a href="https://github.com/jcmrs/ai-chip-plugin" class="nav-link">⭐ GitHub</a>
-        </div>
-    </div>
-    
-    <div class="container">
-        <div class="config-section">
-            <h2 class="section-title">Origin Story Selection</h2>
-            <div class="radio-group">
-                <div class="radio-option" onclick="selectOrigin('underground')">
-                    <input type="radio" name="origin" value="underground" id="origin-underground">
-                    <label for="origin-underground" class="option-label">Underground Tech <span class="option-description">(248 chars) - Black market neural interface</span></label>
-                </div>
-                <div class="radio-option" onclick="selectOrigin('medical')">
-                    <input type="radio" name="origin" value="medical" id="origin-medical">
-                    <label for="origin-medical" class="option-label">Medical Trial <span class="option-description">(226 chars) - Experimental therapeutic device</span></label>
-                </div>
-                <div class="radio-option" onclick="selectOrigin('family')">
-                    <input type="radio" name="origin" value="family" id="origin-family">
-                    <label for="origin-family" class="option-label">Family Inheritance <span class="option-description">(198 chars) - Gift from eccentric relative</span></label>
-                </div>
-                <div class="radio-option" onclick="selectOrigin('corporate')">
-                    <input type="radio" name="origin" value="corporate" id="origin-corporate">
-                    <label for="origin-corporate" class="option-label">Corporate Prototype <span class="option-description">(241 chars) - Leaked beta-test device</span></label>
-                </div>
-            </div>
-        </div>
+        </nav>
+    </header>
 
-        <div class="config-section">
-            <h2 class="section-title">Function Bundles</h2>
-            <div class="functions-grid">
-                <div class="checkbox-option" onclick="toggleFunction('tactical')">
-                    <input type="checkbox" id="func-tactical">
-                    <label for="func-tactical" class="option-label">Tactical Analysis</label>
-                </div>
-                <div class="checkbox-option" onclick="toggleFunction('information')">
-                    <input type="checkbox" id="func-information">
-                    <label for="func-information" class="option-label">Information Retrieval</label>
-                </div>
-                <div class="checkbox-option" onclick="toggleFunction('memory')">
-                    <input type="checkbox" id="func-memory">
-                    <label for="func-memory" class="option-label">Memory Augmentation</label>
-                </div>
-                <div class="checkbox-option" onclick="toggleFunction('biometric')">
-                    <input type="checkbox" id="func-biometric">
-                    <label for="func-biometric" class="option-label">Biometric Monitoring</label>
-                </div>
-                <div class="checkbox-option" onclick="toggleFunction('environmental')">
-                    <input type="checkbox" id="func-environmental">
-                    <label for="func-environmental" class="option-label">Environmental Scanning</label>
-                </div>
-                <div class="checkbox-option" onclick="toggleFunction('social')">
-                    <input type="checkbox" id="func-social">
-                    <label for="func-social" class="option-label">Social Profiling</label>
+    <main class="container">
+        <div class="content">
+            <div class="section">
+                <h3>📖 Origin Story</h3>
+                <p style="color: var(--gray-600); margin-bottom: 1.5rem;">Choose how your character acquired their AI chip. This sets the tone and context for the entire experience.</p>
+                
+                <div class="checkbox-group">
+                    <div class="checkbox-item" onclick="selectOrigin('family')">
+                        <input type="radio" name="origin" value="family" id="origin-family">
+                        <div class="option-title">👨‍👩‍👧‍👦 Family Inheritance</div>
+                        <div class="option-description">A heartwarming gift from an eccentric relative who believed in your potential.</div>
+                        <div class="char-count">198 characters</div>
+                    </div>
+                    
+                    <div class="checkbox-item" onclick="selectOrigin('medical')">
+                        <input type="radio" name="origin" value="medical" id="origin-medical">
+                        <div class="option-title">🏥 Medical Trial</div>
+                        <div class="option-description">Experimental research device from a clinical study you participated in.</div>
+                        <div class="char-count">226 characters</div>
+                    </div>
+                    
+                    <div class="checkbox-item" onclick="selectOrigin('corporate')">
+                        <input type="radio" name="origin" value="corporate" id="origin-corporate">
+                        <div class="option-title">🏢 Corporate Prototype</div>
+                        <div class="option-description">Leaked beta-test device from a major technology corporation.</div>
+                        <div class="char-count">241 characters</div>
+                    </div>
+                    
+                    <div class="checkbox-item" onclick="selectOrigin('underground')">
+                        <input type="radio" name="origin" value="underground" id="origin-underground">
+                        <div class="option-title">🕶️ Underground Tech</div>
+                        <div class="option-description">Black market acquisition with a gritty, streetwise backstory.</div>
+                        <div class="char-count">248 characters</div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="config-section">
-            <h2 class="section-title">Quirk Configuration</h2>
-            <div class="slider-container">
-                <label class="slider-label">Humor Error Rate:</label>
-                <select id="humor-rate" onchange="updatePreview()">
-                    <option value="0">0% - Serious responses only</option>
-                    <option value="15">15% - Occasional inappropriate jokes</option>
-                    <option value="30">30% - Frequent timing failures</option>
-                    <option value="50">50% - Constant terrible puns</option>
-                </select>
+            <div class="section">
+                <h3>⚙️ Function Bundles</h3>
+                <p style="color: var(--gray-600); margin-bottom: 1.5rem;">Select the capabilities your AI chip provides. Mix and match to create your ideal functionality set.</p>
+                
+                <div class="checkbox-group">
+                    <div class="checkbox-item" onclick="toggleFunction('tactical')">
+                        <input type="checkbox" id="func-tactical">
+                        <div class="option-title">⚔️ Tactical Analysis</div>
+                        <div class="option-description">Threat assessment, escape routes, crowd behavior analysis, and strategic planning.</div>
+                    </div>
+                    
+                    <div class="checkbox-item" onclick="toggleFunction('information')">
+                        <input type="checkbox" id="func-information">
+                        <div class="option-title">🔍 Information Retrieval</div>
+                        <div class="option-description">Web searches, fact-checking, database access, and research capabilities.</div>
+                    </div>
+                    
+                    <div class="checkbox-item" onclick="toggleFunction('memory')">
+                        <input type="checkbox" id="func-memory">
+                        <div class="option-title">🧠 Memory Augmentation</div>
+                        <div class="option-description">Perfect recall, pattern recognition, diary functions, and knowledge organization.</div>
+                    </div>
+                    
+                    <div class="checkbox-item" onclick="toggleFunction('biometric')">
+                        <input type="checkbox" id="func-biometric">
+                        <div class="option-title">💓 Biometric Monitoring</div>
+                        <div class="option-description">Stress detection, health tracking, emotional analysis, and wellness insights.</div>
+                    </div>
+                    
+                    <div class="checkbox-item" onclick="toggleFunction('environmental')">
+                        <input type="checkbox" id="func-environmental">
+                        <div class="option-title">🌍 Environmental Scanning</div>
+                        <div class="option-description">Object recognition, navigation assistance, and spatial mapping.</div>
+                    </div>
+                    
+                    <div class="checkbox-item" onclick="toggleFunction('social')">
+                        <input type="checkbox" id="func-social">
+                        <div class="option-title">👥 Social Profiling</div>
+                        <div class="option-description">Background checks, behavioral analysis, and compatibility assessment.</div>
+                    </div>
+                </div>
             </div>
-            <div class="slider-container">
-                <label class="slider-label">Search Filter Efficiency:</label>
-                <select id="filter-efficiency" onchange="updatePreview()">
-                    <option value="95">95% - Professional-grade filtering</option>
-                    <option value="85">85% - Occasional slip-ups</option>
-                    <option value="75">75% - Notable filter gaps</option>
-                    <option value="60">60% - Major filter failures</option>
-                </select>
-            </div>
-            <div class="slider-container">
-                <label class="slider-label">Data Leak Frequency:</label>
-                <select id="data-leaks" onchange="updatePreview()">
-                    <option value="rare">Rare - Monthly reveals</option>
-                    <option value="occasional">Occasional - Weekly slips</option>
-                    <option value="frequent">Frequent - Daily mentions</option>
-                </select>
-            </div>
-            <div class="slider-container">
-                <label class="slider-label">NPC Threat Warnings:</label>
-                <select id="npc-warnings" onchange="updatePreview()">
-                    <option value="enabled">Enabled - Behavioral pattern analysis</option>
-                    <option value="disabled">Disabled - No threat assessments</option>
-                </select>
-            </div>
-        </div>
 
-        <div class="config-section">
-            <h2 class="section-title">Limitation Profile</h2>
-            <div class="radio-group">
-                <div class="radio-option" onclick="selectLimitation('high-end')">
-                    <input type="radio" name="limitation" value="high-end" id="limit-high">
-                    <label for="limit-high" class="option-label">High-End <span class="option-description">Unlimited use, 0.4s delay, 5G+offline</span></label>
+            <div class="section">
+                <h3>🎭 Quirk Settings</h3>
+                <p style="color: var(--gray-600); margin-bottom: 1.5rem;">Configure the entertaining malfunctions and personality quirks that make your AI chip feel authentic.</p>
+                
+                <div class="form-group">
+                    <label class="form-label">Humor Error Rate</label>
+                    <select class="form-select" id="humor-rate" onchange="updatePreview()">
+                        <option value="0">0% - No humor errors</option>
+                        <option value="15" selected>15% - Occasional inappropriate timing</option>
+                        <option value="30">30% - Regular amusing mistakes</option>
+                        <option value="50">50% - Frequent comedy gold</option>
+                    </select>
                 </div>
-                <div class="radio-option" onclick="selectLimitation('standard')">
-                    <input type="radio" name="limitation" value="standard" id="limit-standard">
-                    <label for="limit-standard" class="option-label">Standard <span class="option-description">50 uses, 1.0s delay, WiFi dependent</span></label>
+
+                <div class="form-group">
+                    <label class="form-label">Search Filter Efficiency</label>
+                    <select class="form-select" id="filter-efficiency" onchange="updatePreview()">
+                        <option value="95" selected>95% - Very clean results</option>
+                        <option value="85">85% - Occasional inappropriate content</option>
+                        <option value="75">75% - Regular filter failures</option>
+                        <option value="60">60% - Frequent NSFW leakage</option>
+                    </select>
                 </div>
-                <div class="radio-option" onclick="selectLimitation('limited')">
-                    <input type="radio" name="limitation" value="limited" id="limit-limited">
-                    <label for="limit-limited" class="option-label">Limited <span class="option-description">20 uses, 2.0s delay, offline only</span></label>
+
+                <div class="form-group">
+                    <label class="form-label">Data Leak Frequency</label>
+                    <select class="form-select" id="data-leaks" onchange="updatePreview()">
+                        <option value="rare" selected>Rare - Very secure</option>
+                        <option value="occasional">Occasional - Some revelations</option>
+                        <option value="frequent">Frequent - Regular amusing leaks</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">NPC Threat Warnings</label>
+                    <select class="form-select" id="npc-warnings" onchange="updatePreview()">
+                        <option value="enabled" selected>Enabled - Bias mitigation active</option>
+                        <option value="disabled">Disabled - No NPC warnings</option>
+                    </select>
                 </div>
             </div>
-        </div>
 
-        <div class="config-section">
-            <h2 class="section-title">Communication Syntax</h2>
-            <div class="radio-group">
-                <div class="radio-option" onclick="selectSyntax('technical')">
-                    <input type="radio" name="syntax" value="technical" id="syntax-technical">
-                    <label for="syntax-technical" class="option-label">Technical Format <span class="option-description">System language with data parameters</span></label>
-                </div>
-                <div class="radio-option" onclick="selectSyntax('casual')">
-                    <input type="radio" name="syntax" value="casual" id="syntax-casual">
-                    <label for="syntax-casual" class="option-label">Casual Format <span class="option-description">Conversational tone with personality</span></label>
-                </div>
-                <div class="radio-option" onclick="selectSyntax('minimal')">
-                    <input type="radio" name="syntax" value="minimal" id="syntax-minimal">
-                    <label for="syntax-minimal" class="option-label">Minimal Format <span class="option-description">Brief data only, essential information</span></label>
+            <div class="section">
+                <h3>⚡ Performance Profile</h3>
+                <p style="color: var(--gray-600); margin-bottom: 1.5rem;">Choose the technical specifications and limitations for your AI chip.</p>
+                
+                <div class="checkbox-group">
+                    <div class="checkbox-item" onclick="selectProfile('high-end')">
+                        <input type="radio" name="profile" value="high-end" id="profile-high-end" checked>
+                        <div class="option-title">🚀 High-End</div>
+                        <div class="option-description">Unlimited use, 0.4s delay, 5G+offline connectivity</div>
+                    </div>
+                    
+                    <div class="checkbox-item" onclick="selectProfile('standard')">
+                        <input type="radio" name="profile" value="standard" id="profile-standard">
+                        <div class="option-title">⚙️ Standard</div>
+                        <div class="option-description">50 uses daily, 1.0s delay, WiFi dependent</div>
+                    </div>
+                    
+                    <div class="checkbox-item" onclick="selectProfile('limited')">
+                        <input type="radio" name="profile" value="limited" id="profile-limited">
+                        <div class="option-title">🔋 Limited</div>
+                        <div class="option-description">20 uses daily, 2.0s delay, offline only</div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="preview-section">
-            <div class="preview-header">
-                <h2>Live Preview</h2>
-                <span class="char-counter" id="char-counter">0 characters - Select options to begin</span>
+            <div class="section">
+                <h3>🗜️ Compression Level</h3>
+                <p style="color: var(--gray-600); margin-bottom: 1.5rem;">Optimize for Kindroid's character limits while preserving functionality.</p>
+                
+                <div class="checkbox-group">
+                    <div class="checkbox-item" onclick="selectCompression('light')">
+                        <input type="radio" name="compression" value="light" id="compression-light" checked>
+                        <div class="option-title">🌟 Light (10-15% reduction)</div>
+                        <div class="option-description">Preserves all details and flavor text</div>
+                    </div>
+                    
+                    <div class="checkbox-item" onclick="selectCompression('medium')">
+                        <input type="radio" name="compression" value="medium" id="compression-medium">
+                        <div class="option-title">⚖️ Medium (20-25% reduction)</div>
+                        <div class="option-description">Maintains functionality, reduces descriptions</div>
+                    </div>
+                    
+                    <div class="checkbox-item" onclick="selectCompression('high')">
+                        <input type="radio" name="compression" value="high" id="compression-high">
+                        <div class="option-title">🎯 High (30-35% reduction)</div>
+                        <div class="option-description">Core functionality only, minimal text</div>
+                    </div>
+                </div>
+                
+                <div class="compression-info">
+                    <strong>ℹ️ Compression Information:</strong> All compression levels preserve complete functionality while reducing character count to fit Kindroid's ~2000 character limit. Higher compression maintains all features but uses more concise language.
+                </div>
             </div>
-            <div class="preview-content" id="preview-content">Select configuration options above to see your AI-Chip Plugin module preview...</div>
-        </div>
 
-        <div class="action-buttons">
-            <button class="btn btn-primary" onclick="generateFinalModule()">Generate Final Module</button>
-            <button class="btn btn-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
-            <button class="btn btn-secondary" onclick="compressModule()">Compress Module</button>
-            <button class="btn btn-secondary" onclick="resetConfiguration()">Reset All</button>
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value" id="char-count">0</div>
+                    <div class="stat-label">Characters</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="compression-percent">0%</div>
+                    <div class="stat-label">Compressed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="kindroid-fit">🔴</div>
+                    <div class="stat-label">Kindroid Fit</div>
+                </div>
+            </div>
+
+            <div class="preview-section">
+                <div class="preview-title">📋 Generated Configuration</div>
+                <div class="preview-content" id="preview-content">
+Select your options above to generate your AI-chip configuration...
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary btn-large" onclick="copyConfiguration()">
+                    📋 Copy Configuration
+                </button>
+                <button class="btn btn-secondary btn-large" onclick="resetForm()">
+                    🔄 Reset All
+                </button>
+            </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        const originStories = {
-            underground: "Acquired black market neural interface from tech smuggler in Neo-Tokyo district. No warranty, questionable source code, probable backdoors. Installation performed in underground clinic by unlicensed surgeon.",
-            medical: "Experimental therapeutic device from university neuroscience program. Trial ended abruptly, documentation sealed, device never removed. Participant releases signed under unclear circumstances.",
-            family: "Neural chip gifted by eccentric relative before their disappearance. Origin unknown, capabilities discovered gradually through use. No manual or technical support available.",
-            corporate: "Beta-test neural assistant leaked from defunct tech startup. Partially functional, contains proprietary algorithms, technically stolen property. Company folded before device retrieval."
+        // Configuration data
+        const origins = {
+            family: {
+                text: "At age 12, you inherited an experimental neural interface from your eccentric Aunt Marina, a former neuroscientist who specialized in memory enhancement.",
+                chars: 198
+            },
+            medical: {
+                text: "At 12, you joined Dr. Rebecca Chen's social cognition enhancement study, receiving an experimental empathy-augmentation chip designed to improve interpersonal understanding.",
+                chars: 226
+            },
+            corporate: {
+                text: "At 12, you participated in CyberDyne Corp's 'Future Leaders' program, receiving a prototype productivity enhancement chip that was supposedly just for the summer camp.",
+                chars: 241
+            },
+            underground: {
+                text: "At 12, you acquired a military-grade tactical chip through underground tech dealers in the city's electronics district after saving up for months from odd jobs.",
+                chars: 248
+            }
         };
-        
-        const syntaxFormats = {
-            technical: "{Technical response in system language with data parameters}",
-            casual: "{Conversational tone responses with personality elements}",
-            minimal: "{Brief data only with essential information}"
+
+        const functions = {
+            tactical: "threat assessment, escape routes, crowd behavior analysis",
+            information: "web searches, fact-checking, database access",
+            memory: "perfect recall, pattern recognition, diary functions",
+            biometric: "stress detection, health tracking, emotional analysis",
+            environmental: "object recognition, navigation, spatial mapping",
+            social: "background checks, behavioral analysis, compatibility assessment"
         };
-        
-        let currentConfig = { origin: null, functions: new Set(), humorRate: "0", filterEfficiency: "95", dataLeaks: "rare", npcWarnings: "enabled", limitation: null, syntax: null };
-        
-        function selectOrigin(origin) { currentConfig.origin = origin; document.querySelectorAll('.radio-option input[name="origin"]').forEach(el => el.closest('.radio-option').classList.remove('selected')); document.querySelector(`#origin-${origin}`).closest('.radio-option').classList.add('selected'); document.querySelector(`#origin-${origin}`).checked = true; updatePreview(); }
-        
-        function toggleFunction(func) { const checkbox = document.querySelector(`#func-${func}`); const option = checkbox.closest('.checkbox-option'); if (currentConfig.functions.has(func)) { currentConfig.functions.delete(func); option.classList.remove('selected'); checkbox.checked = false; } else { currentConfig.functions.add(func); option.classList.add('selected'); checkbox.checked = true; } updatePreview(); }
-        
-        function selectLimitation(limitation) { currentConfig.limitation = limitation; document.querySelectorAll('.radio-option input[name="limitation"]').forEach(el => el.closest('.radio-option').classList.remove('selected')); document.querySelector(`#limit-${limitation}`).closest('.radio-option').classList.add('selected'); document.querySelector(`#limit-${limitation}`).checked = true; updatePreview(); }
-        
-        function selectSyntax(syntax) { currentConfig.syntax = syntax; document.querySelectorAll('.radio-option input[name="syntax"]').forEach(el => el.closest('.radio-option').classList.remove('selected')); document.querySelector(`#syntax-${syntax}`).closest('.radio-option').classList.add('selected'); document.querySelector(`#syntax-${syntax}`).checked = true; updatePreview(); }
-        
-        function updateQuirkConfig() { currentConfig.humorRate = document.querySelector('#humor-rate').value; currentConfig.filterEfficiency = document.querySelector('#filter-efficiency').value; currentConfig.dataLeaks = document.querySelector('#data-leaks').value; currentConfig.npcWarnings = document.querySelector('#npc-warnings').value; }
-        
-        function generateChipDesignation() { const origins = { underground: "UG", medical: "MD", family: "FM", corporate: "CP" }; const prefix = origins[currentConfig.origin] || "XX"; const version = Math.floor(Math.random() * 9) + 1; const build = Math.floor(Math.random() * 99) + 10; return `NC-${prefix}${version}.${build}`; }
-        
-        function assembleModule() { updateQuirkConfig(); if (!currentConfig.origin || !currentConfig.limitation || !currentConfig.syntax) { return "Please complete all required selections (Origin, Limitation Profile, Communication Syntax)"; } let module = "--- NEURAL CHIP MODULE ---\n"; module += originStories[currentConfig.origin] + "\n\n"; module += "SYSTEM INTEGRATION:\n• #35: Host blocked from user profile\n• #9: Host limited to discovery learning only\n• #33: Host cannot reference undisclosed user info\n• #37: Neural chip maintains separate user database\n• #26: AI provides conversation guidance via profiling\n• #34: Chip humor errors override standard filters\n\nNeural interface operates independently with full persona access.\n\nKNOWLEDGE SPLIT:\n• Host: Discovery learning (conversation, observation, interaction)\n• Neural chip: Full user profiling via data mining and persona analysis\n• Information barrier: Host cannot access chip's user database directly\n• Chip discretion: May share profiling data through communication interface with potential errors\n\nTech Specs:\n• Model: " + generateChipDesignation() + "\n• Activation: Manual via subvocal command with auto-triggers for threats and priority targets\n"; if (currentConfig.functions.size > 0) { const funcList = Array.from(currentConfig.functions).map(f => f.charAt(0).toUpperCase() + f.slice(1).replace(/([A-Z])/g, ' $1')).join(", "); module += `• Functions: ${funcList}, User Profiling\n`; } else { module += "• Functions: User Profiling (basic configuration)\n"; } module += `• Quirks: Humor error rate ${currentConfig.humorRate}%, search filter ${currentConfig.filterEfficiency}% efficient, data leaks ${currentConfig.dataLeaks}, NPC warnings ${currentConfig.npcWarnings}\n`; const limitations = { "high-end": "Processing delay: 0.4 seconds optimal response time", standard: "Processing delay: 1.0 seconds standard response time", limited: "Processing delay: 2.0 seconds extended response time" }; module += `• Limitations: ${limitations[currentConfig.limitation]}\n`; module += `• Communication: ${syntaxFormats[currentConfig.syntax]}\n\nBehavior:\n• Processes input through host senses only\n• Responds to subvocalized commands and queries\n• May interrupt with relevant/irrelevant info\n• Capable of embarrassing host through data leak incidents\n• Provides user profiling insights unavailable to host consciousness`; return module; }
-        
-        function compressModuleText(moduleText, targetLength = 2000) { let compressed = moduleText; const originalLength = compressed.length; if (originalLength <= targetLength) { return { text: compressed, compressionLevel: 'none', reduction: 0 }; } compressed = compressed.replace(/Tech Specs/g, 'Specs').replace(/Behavior/g, 'Notes').replace(/KNOWLEDGE SPLIT/g, 'KNOWLEDGE').replace(/SYSTEM INTEGRATION/g, 'SYSTEM'); if (compressed.length <= targetLength) { const reduction = Math.round(((originalLength - compressed.length) / originalLength) * 100); return { text: compressed, compressionLevel: 'level1', reduction }; } compressed = compressed.replace(/operates independently with full persona access/g, 'operates independently with persona access').replace(/Discovery learning \(/g, 'Discovery (').replace(/response time/g, 'response').replace(/optimal /g, '').replace(/standard /g, ''); if (compressed.length <= targetLength) { const reduction = Math.round(((originalLength - compressed.length) / originalLength) * 100); return { text: compressed, compressionLevel: 'level2', reduction }; } compressed = compressed.replace(/Information Retrieval/g, 'Info Retrieval').replace(/Environmental Scanning/g, 'Environmental').replace(/Memory Augmentation/g, 'Memory').replace(/Biometric Monitoring/g, 'Biometric'); const reduction = Math.round(((originalLength - compressed.length) / originalLength) * 100); return { text: compressed, compressionLevel: 'level3', reduction }; }
-        
-        function compressModule() { const moduleText = assembleModule(); if (moduleText.includes("Please complete")) { alert("Please complete all required selections before compressing the module."); return; } const result = compressModuleText(moduleText); if (result.compressionLevel === 'none') { alert("Module is already within optimal size. No compression needed."); return; } document.querySelector('#preview-content').textContent = result.text; updateCharCounter(result.text.length); const levelNames = { 'level1': 'Format Optimization', 'level2': 'Text Condensation', 'level3': 'Aggressive Shortening' }; alert(`Module compressed using ${levelNames[result.compressionLevel]}!\nSize reduction: ${result.reduction}%\nNew length: ${result.text.length} characters`); }
-        
-        function generateFinalModule() { const moduleText = assembleModule(); if (moduleText.includes("Please complete")) { alert("Please complete all required selections before generating the final module."); return; } const finalText = moduleText.length > 2000 ? compressModuleText(moduleText).text : moduleText; if (finalText !== moduleText) { document.querySelector('#preview-content').textContent = finalText; updateCharCounter(finalText.length); } alert("Final module generated! You can now copy it to clipboard."); }
-        
-        function updatePreview() { const moduleText = assembleModule(); const charCount = moduleText.length; document.querySelector('#preview-content').textContent = moduleText; let counterText = `${charCount} characters`; if (charCount > 2000) { counterText += ` (${charCount - 2000} over limit - compression available)`; } document.querySelector('#char-counter').textContent = counterText; }
-        
-        function copyToClipboard() { const moduleText = document.querySelector('#preview-content').textContent; if (moduleText.includes("Select configuration")) { alert("Please configure your AI-Chip first."); return; } navigator.clipboard.writeText(moduleText).then(() => { alert("AI-Chip Plugin module copied to clipboard!"); }).catch(() => { const textArea = document.createElement('textarea'); textArea.value = moduleText; document.body.appendChild(textArea); textArea.select(); document.execCommand('copy'); document.body.removeChild(textArea); alert("Module copied to clipboard!"); }); }
-        
-        function resetConfiguration() { if (confirm("Reset all selections? This cannot be undone.")) { currentConfig = { origin: null, functions: new Set(), humorRate: "0", filterEfficiency: "95", dataLeaks: "rare", npcWarnings: "enabled", limitation: null, syntax: null }; document.querySelectorAll('.radio-option').forEach(el => el.classList.remove('selected')); document.querySelectorAll('.checkbox-option').forEach(el => el.classList.remove('selected')); document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false); document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false); document.querySelectorAll('select').forEach(el => el.selectedIndex = 0); updatePreview(); } }
-        
-        function updateCharCounter(count) { let counterText = `${count} characters`; if (count > 2000) { counterText += ` (${count - 2000} over limit - compression available)`; } document.querySelector('#char-counter').textContent = counterText; }
-        
-        document.addEventListener('DOMContentLoaded', function() { updatePreview(); });
+
+        let currentConfig = {
+            origin: 'family',
+            functions: [],
+            humorRate: 15,
+            filterEfficiency: 95,
+            dataLeaks: 'rare',
+            npcWarnings: 'enabled',
+            profile: 'high-end',
+            compression: 'light'
+        };
+
+        // Initialize the form
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePreview();
+            selectOrigin('family');
+            selectProfile('high-end');
+            selectCompression('light');
+        });
+
+        function selectOrigin(origin) {
+            currentConfig.origin = origin;
+            
+            // Update radio button
+            document.getElementById(`origin-${origin}`).checked = true;
+            
+            // Update visual selection
+            document.querySelectorAll('[onclick*="selectOrigin"]').forEach(item => {
+                item.classList.remove('selected');
+            });
+            event.target.closest('.checkbox-item').classList.add('selected');
+            
+            updatePreview();
+        }
+
+        function toggleFunction(func) {
+            const checkbox = document.getElementById(`func-${func}`);
+            const item = event.target.closest('.checkbox-item');
+            
+            if (currentConfig.functions.includes(func)) {
+                currentConfig.functions = currentConfig.functions.filter(f => f !== func);
+                checkbox.checked = false;
+                item.classList.remove('selected');
+            } else {
+                currentConfig.functions.push(func);
+                checkbox.checked = true;
+                item.classList.add('selected');
+            }
+            
+            updatePreview();
+        }
+
+        function selectProfile(profile) {
+            currentConfig.profile = profile;
+            
+            // Update radio button
+            document.getElementById(`profile-${profile}`).checked = true;
+            
+            // Update visual selection
+            document.querySelectorAll('[onclick*="selectProfile"]').forEach(item => {
+                item.classList.remove('selected');
+            });
+            event.target.closest('.checkbox-item').classList.add('selected');
+            
+            updatePreview();
+        }
+
+        function selectCompression(compression) {
+            currentConfig.compression = compression;
+            
+            // Update radio button
+            document.getElementById(`compression-${compression}`).checked = true;
+            
+            // Update visual selection
+            document.querySelectorAll('[onclick*="selectCompression"]').forEach(item => {
+                item.classList.remove('selected');
+            });
+            event.target.closest('.checkbox-item').classList.add('selected');
+            
+            updatePreview();
+        }
+
+        function updatePreview() {
+            // Update quirk settings from form
+            currentConfig.humorRate = document.getElementById('humor-rate').value;
+            currentConfig.filterEfficiency = document.getElementById('filter-efficiency').value;
+            currentConfig.dataLeaks = document.getElementById('data-leaks').value;
+            currentConfig.npcWarnings = document.getElementById('npc-warnings').value;
+
+            // Generate configuration text
+            const config = generateConfiguration();
+            
+            // Update preview
+            document.getElementById('preview-content').textContent = config.text;
+            
+            // Update stats
+            document.getElementById('char-count').textContent = config.length;
+            document.getElementById('compression-percent').textContent = config.compressionPercent + '%';
+            
+            // Update Kindroid fit indicator
+            const fitIndicator = document.getElementById('kindroid-fit');
+            if (config.length <= 1800) {
+                fitIndicator.textContent = '🟢';
+                fitIndicator.parentElement.querySelector('.stat-label').textContent = 'Excellent Fit';
+            } else if (config.length <= 2000) {
+                fitIndicator.textContent = '🟡';
+                fitIndicator.parentElement.querySelector('.stat-label').textContent = 'Good Fit';
+            } else {
+                fitIndicator.textContent = '🔴';
+                fitIndicator.parentElement.querySelector('.stat-label').textContent = 'Too Large';
+            }
+        }
+
+        function generateConfiguration() {
+            let text = origins[currentConfig.origin].text;
+            
+            // Add functions
+            if (currentConfig.functions.length > 0) {
+                const functionList = currentConfig.functions.map(f => functions[f]).join(', ');
+                text += ` The AI chip provides ${functionList}.`;
+            }
+            
+            // Add quirks
+            const quirks = [];
+            if (currentConfig.humorRate > 0) {
+                quirks.push(`${currentConfig.humorRate}% humor error rate`);
+            }
+            if (currentConfig.filterEfficiency < 95) {
+                quirks.push(`${currentConfig.filterEfficiency}% search filter efficiency`);
+            }
+            if (currentConfig.dataLeaks !== 'rare') {
+                quirks.push(`${currentConfig.dataLeaks} data leaks`);
+            }
+            
+            if (quirks.length > 0) {
+                text += ` Quirks include: ${quirks.join(', ')}.`;
+            }
+            
+            // Add performance profile
+            const profiles = {
+                'high-end': 'High-end specs: unlimited daily use, 0.4s response, 5G+offline capable.',
+                'standard': 'Standard specs: 50 daily uses, 1.0s response, WiFi dependent.',
+                'limited': 'Limited specs: 20 daily uses, 2.0s response, offline only.'
+            };
+            text += ` ${profiles[currentConfig.profile]}`;
+            
+            // Add system prompt
+            const systemFunctions = currentConfig.functions.length > 0 ? 
+                currentConfig.functions.map(f => f.charAt(0).toUpperCase() + f.slice(1)).join(' + ') : 
+                'Basic functions';
+            
+            text += ` {Processing user data: enabled. Functions: ${systemFunctions}. Response format: technical analysis, 12-word limit.`;
+            
+            if (currentConfig.humorRate > 0) {
+                text += ` Humor module: active with ${currentConfig.humorRate}% error rate.`;
+            }
+            
+            if (currentConfig.npcWarnings === 'enabled') {
+                text += ' NPC threat warnings: enabled.';
+            }
+            
+            text += '}';
+            
+            // Apply compression
+            const originalLength = text.length;
+            let compressed = text;
+            
+            if (currentConfig.compression === 'medium') {
+                compressed = text
+                    .replace(/experimental neural interface/g, 'neural interface')
+                    .replace(/productivity enhancement chip/g, 'enhancement chip')
+                    .replace(/social cognition enhancement study/g, 'cognition study')
+                    .replace(/, receiving /g, ', got ')
+                    .replace(/designed to improve/g, 'for')
+                    .replace(/participated in/g, 'joined')
+                    .replace(/specialized in/g, 'focused on');
+            } else if (currentConfig.compression === 'high') {
+                compressed = text
+                    .replace(/experimental neural interface/g, 'neural chip')
+                    .replace(/productivity enhancement chip/g, 'chip')
+                    .replace(/social cognition enhancement study/g, 'study')
+                    .replace(/, receiving an experimental/g, ', got an')
+                    .replace(/designed to improve interpersonal understanding/g, 'for social skills')
+                    .replace(/participated in/g, 'joined')
+                    .replace(/specialized in memory enhancement/g, 'in memory tech')
+                    .replace(/underground tech dealers in the city's electronics district/g, 'underground dealers')
+                    .replace(/after saving up for months from odd jobs/g, 'after saving up');
+            }
+            
+            const compressionPercent = Math.round((1 - compressed.length / originalLength) * 100);
+            
+            return {
+                text: compressed,
+                length: compressed.length,
+                compressionPercent: compressionPercent
+            };
+        }
+
+        function copyConfiguration() {
+            const config = generateConfiguration();
+            if (window.AIChipFramework) {
+                window.AIChipFramework.copyToClipboard(config.text, 'Configuration copied to clipboard!');
+            }
+        }
+
+        function resetForm() {
+            // Reset all form elements
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+            });
+            
+            document.querySelectorAll('.checkbox-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Reset configuration
+            currentConfig = {
+                origin: 'family',
+                functions: [],
+                humorRate: 15,
+                filterEfficiency: 95,
+                dataLeaks: 'rare',
+                npcWarnings: 'enabled',
+                profile: 'high-end',
+                compression: 'light'
+            };
+            
+            // Reset form values
+            document.getElementById('humor-rate').value = '15';
+            document.getElementById('filter-efficiency').value = '95';
+            document.getElementById('data-leaks').value = 'rare';
+            document.getElementById('npc-warnings').value = 'enabled';
+            
+            // Re-select defaults
+            selectOrigin('family');
+            selectProfile('high-end');
+            selectCompression('light');
+            
+            updatePreview();
+            
+            if (window.AIChipFramework) {
+                window.AIChipFramework.showToast('Configuration reset to defaults', 'info');
+            }
+        }
     </script>
 </body>
 </html>

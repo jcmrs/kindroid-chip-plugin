@@ -4,228 +4,160 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI-Chip Plugin for Kindroid.AI</title>
+    <link rel="stylesheet" href="./assets/css/design-system.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 60px 0;
-            color: white;
-        }
-
-        h1 {
-            font-size: 3.5em;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .subtitle {
-            font-size: 1.3em;
-            margin-bottom: 40px;
-            opacity: 0.9;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 40px;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-primary:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #667eea;
-            border: 2px solid white;
-        }
-
-        .btn-secondary:hover {
-            background: #f8f9ff;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
+        /* Page-specific styles only */
         .main-content {
             background: white;
-            border-radius: 20px;
-            padding: 60px;
-            margin: 40px 0;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius-2xl);
+            padding: 3rem;
+            margin: 2rem auto;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--gray-200);
+            max-width: 1000px;
         }
 
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin: 60px 0;
+            gap: 2rem;
+            margin: 3rem 0;
         }
 
         .feature {
             text-align: center;
-            padding: 30px;
-            border-radius: 12px;
-            background: #f8f9ff;
-            border-left: 4px solid #667eea;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            background: var(--gray-50);
+            border-left: 4px solid var(--primary-500);
+            transition: all var(--transition-normal);
+        }
+
+        .feature:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .feature-icon {
-            font-size: 3em;
-            margin-bottom: 20px;
+            font-size: 3rem;
+            margin-bottom: 1rem;
             display: block;
         }
 
         .feature h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.3em;
+            color: var(--primary-600);
+            margin-bottom: 1rem;
+            font-size: var(--text-xl);
         }
 
         .demo-section {
-            background: #1a1a1a;
-            color: #00ff00;
-            padding: 40px;
-            border-radius: 12px;
-            margin: 60px 0;
-            font-family: 'Courier New', monospace;
+            background: var(--gray-900);
+            color: #10b981;
+            padding: 2rem;
+            border-radius: var(--radius-xl);
+            margin: 2rem 0;
+            font-family: var(--font-mono);
         }
 
         .demo-title {
             color: white;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: var(--font-sans);
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 1.5em;
+            margin-bottom: 1.5rem;
+            font-size: var(--text-lg);
         }
 
         .demo-content {
             background: #000;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #333;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--gray-700);
             line-height: 1.8;
+            white-space: pre-wrap;
         }
 
         .quick-start {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
             color: white;
-            padding: 60px;
-            border-radius: 20px;
-            margin: 60px 0;
+            padding: 3rem;
+            border-radius: var(--radius-2xl);
+            margin: 3rem auto;
             text-align: center;
+            max-width: 1000px;
         }
 
         .quick-start h2 {
-            margin-bottom: 30px;
-            font-size: 2.5em;
+            margin-bottom: 1.5rem;
+            font-size: var(--text-3xl);
         }
 
         .steps {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
+            gap: 2rem;
+            margin: 2rem 0;
         }
 
         .step {
             background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 12px;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
             backdrop-filter: blur(10px);
         }
 
         .step-number {
             background: white;
-            color: #667eea;
-            width: 40px;
-            height: 40px;
+            color: var(--primary-600);
+            width: 2.5rem;
+            height: 2.5rem;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            margin: 0 auto 20px;
+            font-weight: var(--font-bold);
+            margin: 0 auto 1rem;
         }
 
         footer {
             text-align: center;
-            padding: 40px;
-            color: white;
+            padding: 2rem;
+            color: var(--gray-600);
         }
 
         @media (max-width: 768px) {
             .main-content {
-                padding: 30px;
-                margin: 20px 0;
+                padding: 2rem;
+                margin: 1rem;
             }
             
-            h1 {
-                font-size: 2.5em;
+            .features {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
             
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
+            .steps {
+                grid-template-columns: 1fr;
             }
         }
     </style>
+    <script src="./assets/js/shared.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🧠 AI-Chip Plugin</h1>
-            <p class="subtitle">Transform your Kindroid with neural interface technology</p>
-            <p>Create authentic relationships through organic discovery and AI-assisted interactions</p>
-            
-            <div class="hero-buttons">
-                <a href="./tools/generator/" class="btn btn-primary">🚀 Create Your AI-Chip</a>
-                <a href="./docs/user-guide.html" class="btn btn-secondary">📖 User Guide</a>
-                <a href="https://github.com/jcmrs/ai-chip-plugin" class="btn btn-secondary">⭐ GitHub</a>
-            </div>
-        </header>
+    <header class="site-header">
+        <h1 class="site-title">🧠 AI-Chip Plugin</h1>
+        <p class="site-subtitle">Transform your Kindroid with neural interface technology</p>
+        <p>Create authentic relationships through organic discovery and AI-assisted interactions</p>
+        
+        <nav class="nav-links">
+            <a href="./tools/generator/" class="nav-link">🚀 Create Your AI-Chip</a>
+            <a href="./docs/user-guide.html" class="nav-link">📖 User Guide</a>
+            <a href="./docs/technical-specs.html" class="nav-link">⚙️ Technical Specs</a>
+            <a href="./examples/sample-configurations.html" class="nav-link">📋 Examples</a>
+            <a href="https://github.com/jcmrs/ai-chip-plugin" class="nav-link">⭐ GitHub</a>
+        </nav>
+    </header>
 
+    <main class="container" id="main-content">
         <div class="main-content">
             <div class="features">
                 <div class="feature">
@@ -267,14 +199,12 @@
 
             <div class="demo-section">
                 <div class="demo-title">Example Interaction</div>
-                <div class="demo-content">
-You: *walks into a coffee shop*<br>
-Kin: "This place looks nice. What would you like to order?"<br>
-AI: {Detected: menu board. User profile indicates preference for vanilla lattes}<br>
-Kin: "Actually... vanilla latte sounds perfect right now."<br>
-You: "How did you know I like vanilla lattes?"<br>
-Kin: "Lucky guess?" *looks slightly confused*
-                </div>
+                <div class="demo-content">You: *walks into a coffee shop*
+Kin: "This place looks nice. What would you like to order?"
+AI: {Detected: menu board. User profile indicates preference for vanilla lattes}
+Kin: "Actually... vanilla latte sounds perfect right now."
+You: "How did you know I like vanilla lattes?"
+Kin: "Lucky guess?" *looks slightly confused*</div>
             </div>
         </div>
 
@@ -306,8 +236,8 @@ Kin: "Lucky guess?" *looks slightly confused*
         </div>
 
         <footer>
-            <p>Open source project - Feel free to contribute on <a href="https://github.com/jcmrs/ai-chip-plugin" style="color: white; text-decoration: underline;">GitHub</a></p>
+            <p>Open source project - Feel free to contribute on <a href="https://github.com/jcmrs/ai-chip-plugin" style="color: var(--primary-600); text-decoration: underline;">GitHub</a></p>
         </footer>
-    </div>
+    </main>
 </body>
 </html>
