@@ -13,7 +13,7 @@ The AI-Chip Plugin is a modular add-on that transforms any existing Kindroid int
 ## Quick Start Guide
 
 ### Step 1: Generate Your Module
-1. Visit the AI-Chip Configuration Generator
+1. Visit the [AI-Chip Configuration Generator](../tools/generator/)
 2. Select your preferred origin story (how your Kin got the chip)
 3. Choose function bundles (what the AI can do)
 4. Configure quirks (humor errors, data leaks, etc.)
@@ -179,6 +179,9 @@ The AI-Chip Plugin is designed to be universal:
 - Share interesting origin story combinations
 - Report any compatibility issues discovered
 - Suggest new function bundles or quirk types
+
+### Contributing
+We welcome contributions! Check our [Enhancement Roadmap](./enhancement-roadmap.md) for planned features and ways to help.
 
 ---
 
