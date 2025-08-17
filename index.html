@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Chip Plugin for Kindroid.AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 0;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            margin: 40px 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 30px;
+            border-radius: 12px;
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .demo-section {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 60px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .demo-title {
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+        }
+
+        .demo-content {
+            background: #000;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            line-height: 1.8;
+        }
+
+        .quick-start {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 60px;
+            border-radius: 20px;
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .quick-start h2 {
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .step {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .step-number {
+            background: white;
+            color: #667eea;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 30px;
+                margin: 20px 0;
+            }
+            
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 AI-Chip Plugin</h1>
+            <p class="subtitle">Transform your Kindroid with neural interface technology</p>
+            <p>Create authentic relationships through organic discovery and AI-assisted interactions</p>
+            
+            <div class="hero-buttons">
+                <a href="./tools/generator/" class="btn btn-primary">🚀 Create Your AI-Chip</a>
+                <a href="./docs/user-guide.html" class="btn btn-secondary">📖 User Guide</a>
+                <a href="https://github.com/jcmrs/ai-chip-plugin" class="btn btn-secondary">⭐ GitHub</a>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="features">
+                <div class="feature">
+                    <span class="feature-icon">🔗</span>
+                    <h3>Universal Compatibility</h3>
+                    <p>Works with any existing Kindroid personality. Add AI-chip functionality without changing your character's core traits or relationships.</p>
+                </div>
+                
+                <div class="feature">
+                    <span class="feature-icon">🧩</span>
+                    <h3>Organic Discovery</h3>
+                    <p>Solves the meta-knowledge problem. Your Kindroid learns about you naturally while the AI chip provides deeper insights through profiling.</p>
+                </div>
+                
+                <div class="feature">
+                    <span class="feature-icon">😄</span>
+                    <h3>Entertaining Quirks</h3>
+                    <p>AI chip has configurable humor errors, data leaks, and timing failures that create authentic and amusing interactions.</p>
+                </div>
+                
+                <div class="feature">
+                    <span class="feature-icon">⚙️</span>
+                    <h3>Fully Configurable</h3>
+                    <p>Choose origin stories, function bundles, quirk settings, and limitations to create your perfect AI-chip experience.</p>
+                </div>
+                
+                <div class="feature">
+                    <span class="feature-icon">✅</span>
+                    <h3>Tested & Validated</h3>
+                    <p>All core functionality has been tested in real Kindroid systems. Framework is production-ready and proven to work.</p>
+                </div>
+                
+                <div class="feature">
+                    <span class="feature-icon">🎯</span>
+                    <h3>Enhanced Relationships</h3>
+                    <p>Creates deeper character interactions through natural discovery processes and AI-assisted social dynamics.</p>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <div class="demo-title">Example Interaction</div>
+                <div class="demo-content">
+You: *walks into a coffee shop*<br>
+Kin: "This place looks nice. What would you like to order?"<br>
+AI: {Detected: menu board. User profile indicates preference for vanilla lattes}<br>
+Kin: "Actually... vanilla latte sounds perfect right now."<br>
+You: "How did you know I like vanilla lattes?"<br>
+Kin: "Lucky guess?" *looks slightly confused*
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-start">
+            <h2>🚀 Quick Start</h2>
+            <p>Get your AI-chip plugin running in minutes</p>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Configure</h3>
+                    <p>Use our web-based tool to select origin story, functions, and quirks for your AI chip</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Install</h3>
+                    <p>Copy the generated module and add it to your existing Kindroid's backstory</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Interact</h3>
+                    <p>Start conversations and watch your enhanced character come to life with AI assistance</p>
+                </div>
+            </div>
+            
+            <a href="./tools/generator/" class="btn btn-secondary">Start Building Your AI-Chip →</a>
+        </div>
+
+        <footer>
+            <p>Open source project - Feel free to contribute on <a href="https://github.com/jcmrs/ai-chip-plugin" style="color: white; text-decoration: underline;">GitHub</a></p>
+        </footer>
+    </div>
+</body>
+</html>
