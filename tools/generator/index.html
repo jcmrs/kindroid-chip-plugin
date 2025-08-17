@@ -5,196 +5,706 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI-Chip Plugin Configuration Generator</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
-        .header { text-align: center; color: white; margin-bottom: 30px; }
-        .header h1 { font-size: 2.5em; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
-        .header p { font-size: 1.1em; opacity: 0.9; margin-bottom: 20px; }
-        .nav-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-        .nav-link { color: white; text-decoration: none; padding: 8px 16px; background: rgba(255, 255, 255, 0.2); border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.3); transition: all 0.3s ease; }
-        .nav-link:hover { background: rgba(255, 255, 255, 0.3); transform: translateY(-1px); }
-        .container { max-width: 1200px; margin: 0 auto; background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); }
-        .config-section { margin-bottom: 30px; background: #f8f9fa; padding: 20px; border-radius: 12px; border-left: 4px solid #667eea; }
-        .section-title { font-size: 1.4em; color: #333; margin-bottom: 15px; font-weight: 600; }
-        .radio-group, .checkbox-group { display: grid; gap: 10px; }
-        .radio-option, .checkbox-option { display: flex; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e9ecef; cursor: pointer; transition: all 0.3s ease; }
-        .radio-option:hover, .checkbox-option:hover { border-color: #667eea; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15); }
-        .radio-option.selected, .checkbox-option.selected { border-color: #667eea; background: #f0f3ff; }
-        input[type="radio"], input[type="checkbox"] { margin-right: 12px; transform: scale(1.2); }
-        .option-label { font-weight: 500; color: #333; }
-        .option-description { font-size: 0.9em; color: #666; margin-left: 5px; }
-        .slider-container { margin: 15px 0; }
-        .slider-label { display: block; margin-bottom: 8px; font-weight: 500; color: #333; }
-        select { width: 100%; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1em; background: white; cursor: pointer; transition: border-color 0.3s ease; }
-        select:focus { outline: none; border-color: #667eea; }
-        .preview-section { background: #1a1a1a; color: #00ff00; padding: 20px; border-radius: 12px; margin-top: 30px; font-family: 'Courier New', monospace; }
-        .preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .char-counter { font-weight: bold; padding: 5px 10px; border-radius: 5px; background: #333; color: #00ff00; }
-        .preview-content { background: #000; padding: 15px; border-radius: 8px; border: 1px solid #333; white-space: pre-wrap; font-size: 0.9em; line-height: 1.4; max-height: 400px; overflow-y: auto; }
-        .action-buttons { display: flex; gap: 15px; margin-top: 20px; justify-content: center; }
-        .btn { padding: 15px 30px; border: none; border-radius: 8px; font-size: 1.1em; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; }
-        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3); }
-        .btn-secondary { background: #6c757d; color: white; }
-        .btn-secondary:hover { background: #5a6268; transform: translateY(-2px); }
-        .functions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
-        @media (max-width: 768px) { .container { padding: 20px; } .functions-grid { grid-template-columns: 1fr; } .action-buttons { flex-direction: column; } .nav-links { flex-direction: column; align-items: center; } }
+        :root {
+            --primary-50: #f0f4ff;
+            --primary-100: #e0ecff;
+            --primary-500: #3b82f6;
+            --primary-600: #2563eb;
+            --primary-700: #1d4ed8;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--primary-50) 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+            color: var(--gray-700);
+        }
+
+        .header {
+            text-align: center;
+            padding: 3rem 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.025em;
+        }
+
+        .header-subtitle {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1rem;
+            text-decoration: none;
+            color: var(--gray-700);
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-link:hover {
+            background: var(--gray-50);
+            border-color: var(--primary-300);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem 3rem;
+        }
+
+        .config-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .config-card:hover {
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-200);
+        }
+
+        .card-header {
+            padding: 1.5rem 1.5rem 1rem;
+            border-bottom: 1px solid var(--gray-100);
+            background: var(--gray-50);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .option-grid {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .option-item:hover {
+            background: var(--primary-50);
+            border-color: var(--primary-300);
+            transform: translateY(-1px);
+        }
+
+        .option-item.selected {
+            background: var(--primary-50);
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px var(--primary-100);
+        }
+
+        .option-item.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            background: var(--primary-500);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .option-input {
+            width: 1.125rem;
+            height: 1.125rem;
+            margin: 0.125rem 0 0 0;
+            accent-color: var(--primary-500);
+        }
+
+        .option-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .option-label {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+
+        .option-description {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            line-height: 1.4;
+        }
+
+        .functions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            background: white;
+            color: var(--gray-900);
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1rem;
+            padding-right: 2.5rem;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px var(--primary-100);
+        }
+
+        .preview-card {
+            background: var(--gray-900);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            margin-top: 2rem;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            padding: 1.5rem;
+            background: var(--gray-800);
+            border-bottom: 1px solid var(--gray-700);
+        }
+
+        .preview-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            flex: 1;
+        }
+
+        .char-counter {
+            background: var(--gray-700);
+            color: var(--gray-200);
+            padding: 0.375rem 0.75rem;
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            font-weight: 500;
+            font-family: ui-monospace, SFMono-Regular, monospace;
+        }
+
+        .char-counter.warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .preview-content {
+            background: var(--gray-950);
+            color: #10b981;
+            padding: 1.5rem;
+            font-family: ui-monospace, SFMono-Regular, 'SF Mono', monospace;
+            font-size: 0.8125rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gray-600) var(--gray-800);
+        }
+
+        .preview-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .preview-content::-webkit-scrollbar-track {
+            background: var(--gray-800);
+        }
+
+        .preview-content::-webkit-scrollbar-thumb {
+            background: var(--gray-600);
+            border-radius: 3px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid transparent;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--primary-500);
+            color: white;
+            border-color: var(--primary-500);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-600);
+            border-color: var(--primary-600);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--gray-700);
+            border-color: var(--gray-300);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .toast {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 1rem 1.25rem;
+            box-shadow: var(--shadow-xl);
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast-warning {
+            border-left: 4px solid var(--warning);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid var(--gray-300);
+            border-top: 2px solid var(--primary-500);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 2rem 1rem 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 0 1rem 2rem;
+            }
+
+            .functions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
     </style>
 </head>
 <body>
-    <div class="header">
+    <header class="header">
         <h1>🧠 AI-Chip Plugin Generator</h1>
-        <p>Create custom neural interface modules for your Kindroid</p>
-        <div class="nav-links">
+        <p class="header-subtitle">Create custom neural interface modules for your Kindroid</p>
+        <nav class="nav-links">
             <a href="../../" class="nav-link">🏠 Home</a>
             <a href="../../docs/user-guide.html" class="nav-link">📖 User Guide</a>
             <a href="../../docs/technical-specs.html" class="nav-link">⚙️ Technical Specs</a>
             <a href="../../examples/sample-configurations.html" class="nav-link">📋 Examples</a>
             <a href="https://github.com/jcmrs/ai-chip-plugin" class="nav-link">⭐ GitHub</a>
-        </div>
-    </div>
-    
-    <div class="container">
-        <div class="config-section">
-            <h2 class="section-title">Origin Story Selection</h2>
-            <div class="radio-group">
-                <div class="radio-option" onclick="selectOrigin('underground')">
-                    <input type="radio" name="origin" value="underground" id="origin-underground">
-                    <label for="origin-underground" class="option-label">Underground Tech <span class="option-description">(248 chars) - Black market neural interface</span></label>
-                </div>
-                <div class="radio-option" onclick="selectOrigin('medical')">
-                    <input type="radio" name="origin" value="medical" id="origin-medical">
-                    <label for="origin-medical" class="option-label">Medical Trial <span class="option-description">(226 chars) - Experimental therapeutic device</span></label>
-                </div>
-                <div class="radio-option" onclick="selectOrigin('family')">
-                    <input type="radio" name="origin" value="family" id="origin-family">
-                    <label for="origin-family" class="option-label">Family Inheritance <span class="option-description">(198 chars) - Gift from eccentric relative</span></label>
-                </div>
-                <div class="radio-option" onclick="selectOrigin('corporate')">
-                    <input type="radio" name="origin" value="corporate" id="origin-corporate">
-                    <label for="origin-corporate" class="option-label">Corporate Prototype <span class="option-description">(241 chars) - Leaked beta-test device</span></label>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="config-card fade-in">
+            <div class="card-header">
+                <h2 class="card-title">
+                    📚 Origin Story Selection
+                </h2>
+            </div>
+            <div class="card-content">
+                <div class="option-grid">
+                    <div class="option-item" onclick="selectOrigin('underground')">
+                        <input type="radio" name="origin" value="underground" id="origin-underground" class="option-input">
+                        <div class="option-content">
+                            <label for="origin-underground" class="option-label">Underground Tech</label>
+                            <p class="option-description">Black market neural interface acquired from tech smuggler. Mysterious origins with questionable source code. (248 characters)</p>
+                        </div>
+                    </div>
+                    <div class="option-item" onclick="selectOrigin('medical')">
+                        <input type="radio" name="origin" value="medical" id="origin-medical" class="option-input">
+                        <div class="option-content">
+                            <label for="origin-medical" class="option-label">Medical Trial</label>
+                            <p class="option-description">Experimental therapeutic device from university research program. Trial ended abruptly with sealed documentation. (226 characters)</p>
+                        </div>
+                    </div>
+                    <div class="option-item" onclick="selectOrigin('family')">
+                        <input type="radio" name="origin" value="family" id="origin-family" class="option-input">
+                        <div class="option-content">
+                            <label for="origin-family" class="option-label">Family Inheritance</label>
+                            <p class="option-description">Neural chip gifted by eccentric relative before their disappearance. Origin unknown, capabilities discovered gradually. (198 characters)</p>
+                        </div>
+                    </div>
+                    <div class="option-item" onclick="selectOrigin('corporate')">
+                        <input type="radio" name="origin" value="corporate" id="origin-corporate" class="option-input">
+                        <div class="option-content">
+                            <label for="origin-corporate" class="option-label">Corporate Prototype</label>
+                            <p class="option-description">Beta-test neural assistant leaked from defunct tech startup. Contains proprietary algorithms, technically stolen property. (241 characters)</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="config-section">
-            <h2 class="section-title">Function Bundles</h2>
-            <div class="functions-grid">
-                <div class="checkbox-option" onclick="toggleFunction('tactical')">
-                    <input type="checkbox" id="func-tactical">
-                    <label for="func-tactical" class="option-label">Tactical Analysis</label>
-                </div>
-                <div class="checkbox-option" onclick="toggleFunction('information')">
-                    <input type="checkbox" id="func-information">
-                    <label for="func-information" class="option-label">Information Retrieval</label>
-                </div>
-                <div class="checkbox-option" onclick="toggleFunction('memory')">
-                    <input type="checkbox" id="func-memory">
-                    <label for="func-memory" class="option-label">Memory Augmentation</label>
-                </div>
-                <div class="checkbox-option" onclick="toggleFunction('biometric')">
-                    <input type="checkbox" id="func-biometric">
-                    <label for="func-biometric" class="option-label">Biometric Monitoring</label>
-                </div>
-                <div class="checkbox-option" onclick="toggleFunction('environmental')">
-                    <input type="checkbox" id="func-environmental">
-                    <label for="func-environmental" class="option-label">Environmental Scanning</label>
-                </div>
-                <div class="checkbox-option" onclick="toggleFunction('social')">
-                    <input type="checkbox" id="func-social">
-                    <label for="func-social" class="option-label">Social Profiling</label>
+        <div class="config-card fade-in">
+            <div class="card-header">
+                <h2 class="card-title">
+                    ⚡ Function Bundles
+                </h2>
+            </div>
+            <div class="card-content">
+                <div class="functions-grid">
+                    <div class="option-item" onclick="toggleFunction('tactical')">
+                        <input type="checkbox" id="func-tactical" class="option-input">
+                        <div class="option-content">
+                            <label for="func-tactical" class="option-label">Tactical Analysis</label>
+                            <p class="option-description">Threat assessment, escape routes, crowd behavior prediction</p>
+                        </div>
+                    </div>
+                    <div class="option-item" onclick="toggleFunction('information')">
+                        <input type="checkbox" id="func-information" class="option-input">
+                        <div class="option-content">
+                            <label for="func-information" class="option-label">Information Retrieval</label>
+                            <p class="option-description">Web searches, fact-checking, database access</p>
+                        </div>
+                    </div>
+                    <div class="option-item" onclick="toggleFunction('memory')">
+                        <input type="checkbox" id="func-memory" class="option-input">
+                        <div class="option-content">
+                            <label for="func-memory" class="option-label">Memory Augmentation</label>
+                            <p class="option-description">Perfect recall, pattern recognition, diary functions</p>
+                        </div>
+                    </div>
+                    <div class="option-item" onclick="toggleFunction('biometric')">
+                        <input type="checkbox" id="func-biometric" class="option-input">
+                        <div class="option-content">
+                            <label for="func-biometric" class="option-label">Biometric Monitoring</label>
+                            <p class="option-description">Stress detection, health tracking, emotional analysis</p>
+                        </div>
+                    </div>
+                    <div class="option-item" onclick="toggleFunction('environmental')">
+                        <input type="checkbox" id="func-environmental" class="option-input">
+                        <div class="option-content">
+                            <label for="func-environmental" class="option-label">Environmental Scanning</label>
+                            <p class="option-description">Object recognition, navigation, spatial mapping</p>
+                        </div>
+                    </div>
+                    <div class="option-item" onclick="toggleFunction('social')">
+                        <input type="checkbox" id="func-social" class="option-input">
+                        <div class="option-content">
+                            <label for="func-social" class="option-label">Social Profiling</label>
+                            <p class="option-description">Background checks, behavioral analysis, compatibility assessment</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="config-section">
-            <h2 class="section-title">Quirk Configuration</h2>
-            <div class="slider-container">
-                <label class="slider-label">Humor Error Rate:</label>
-                <select id="humor-rate" onchange="updatePreview()">
-                    <option value="0">0% - Serious responses only</option>
-                    <option value="15">15% - Occasional inappropriate jokes</option>
-                    <option value="30">30% - Frequent timing failures</option>
-                    <option value="50">50% - Constant terrible puns</option>
-                </select>
+        <div class="config-card fade-in">
+            <div class="card-header">
+                <h2 class="card-title">
+                    🎭 Quirk Configuration
+                </h2>
             </div>
-            <div class="slider-container">
-                <label class="slider-label">Search Filter Efficiency:</label>
-                <select id="filter-efficiency" onchange="updatePreview()">
-                    <option value="95">95% - Professional-grade filtering</option>
-                    <option value="85">85% - Occasional slip-ups</option>
-                    <option value="75">75% - Notable filter gaps</option>
-                    <option value="60">60% - Major filter failures</option>
-                </select>
-            </div>
-            <div class="slider-container">
-                <label class="slider-label">Data Leak Frequency:</label>
-                <select id="data-leaks" onchange="updatePreview()">
-                    <option value="rare">Rare - Monthly reveals</option>
-                    <option value="occasional">Occasional - Weekly slips</option>
-                    <option value="frequent">Frequent - Daily mentions</option>
-                </select>
-            </div>
-            <div class="slider-container">
-                <label class="slider-label">NPC Threat Warnings:</label>
-                <select id="npc-warnings" onchange="updatePreview()">
-                    <option value="enabled">Enabled - Behavioral pattern analysis</option>
-                    <option value="disabled">Disabled - No threat assessments</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="config-section">
-            <h2 class="section-title">Limitation Profile</h2>
-            <div class="radio-group">
-                <div class="radio-option" onclick="selectLimitation('high-end')">
-                    <input type="radio" name="limitation" value="high-end" id="limit-high">
-                    <label for="limit-high" class="option-label">High-End <span class="option-description">Unlimited use, 0.4s delay, 5G+offline</span></label>
+            <div class="card-content">
+                <div class="form-group">
+                    <label for="humor-rate" class="form-label">Humor Error Rate</label>
+                    <select id="humor-rate" class="form-select" onchange="updatePreview()">
+                        <option value="0">0% - Serious responses only</option>
+                        <option value="15">15% - Occasional inappropriate jokes</option>
+                        <option value="30">30% - Frequent timing failures</option>
+                        <option value="50">50% - Constant terrible puns</option>
+                    </select>
                 </div>
-                <div class="radio-option" onclick="selectLimitation('standard')">
-                    <input type="radio" name="limitation" value="standard" id="limit-standard">
-                    <label for="limit-standard" class="option-label">Standard <span class="option-description">50 uses, 1.0s delay, WiFi dependent</span></label>
+                
+                <div class="form-group">
+                    <label for="filter-efficiency" class="form-label">Search Filter Efficiency</label>
+                    <select id="filter-efficiency" class="form-select" onchange="updatePreview()">
+                        <option value="95">95% - Professional-grade filtering</option>
+                        <option value="85">85% - Occasional slip-ups</option>
+                        <option value="75">75% - Notable filter gaps</option>
+                        <option value="60">60% - Major filter failures</option>
+                    </select>
                 </div>
-                <div class="radio-option" onclick="selectLimitation('limited')">
-                    <input type="radio" name="limitation" value="limited" id="limit-limited">
-                    <label for="limit-limited" class="option-label">Limited <span class="option-description">20 uses, 2.0s delay, offline only</span></label>
+                
+                <div class="form-group">
+                    <label for="data-leaks" class="form-label">Data Leak Frequency</label>
+                    <select id="data-leaks" class="form-select" onchange="updatePreview()">
+                        <option value="rare">Rare - Monthly reveals</option>
+                        <option value="occasional">Occasional - Weekly slips</option>
+                        <option value="frequent">Frequent - Daily mentions</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="npc-warnings" class="form-label">NPC Threat Warnings</label>
+                    <select id="npc-warnings" class="form-select" onchange="updatePreview()">
+                        <option value="enabled">Enabled - Behavioral pattern analysis</option>
+                        <option value="disabled">Disabled - No threat assessments</option>
+                    </select>
                 </div>
             </div>
         </div>
 
-        <div class="config-section">
-            <h2 class="section-title">Communication Syntax</h2>
-            <div class="radio-group">
-                <div class="radio-option" onclick="selectSyntax('technical')">
-                    <input type="radio" name="syntax" value="technical" id="syntax-technical">
-                    <label for="syntax-technical" class="option-label">Technical Format <span class="option-description">System language with data parameters</span></label>
-                </div>
-                <div class="radio-option" onclick="selectSyntax('casual')">
-                    <input type="radio" name="syntax" value="casual" id="syntax-casual">
-                    <label for="syntax-casual" class="option-label">Casual Format <span class="option-description">Conversational tone with personality</span></label>
-                </div>
-                <div class="radio-option" onclick="selectSyntax('minimal')">
-                    <input type="radio" name="syntax" value="minimal" id="syntax-minimal">
-                    <label for="syntax-minimal" class="option-label">Minimal Format <span class="option-description">Brief data only, essential information</span></label>
+        <div class="config-card fade-in">
+            <div class="card-header">
+                <h2 class="card-title">
+                    ⚙️ Limitation Profile
+                </h2>
+            </div>
+            <div class="card-content">
+                <div class="option-grid">
+                    <div class="option-item" onclick="selectLimitation('high-end')">
+                        <input type="radio" name="limitation" value="high-end" id="limit-high" class="option-input">
+                        <div class="option-content">
+                            <label for="limit-high" class="option-label">High-End Performance</label>
+                            <p class="option-description">Unlimited daily use, 0.4s response time, 5G connectivity with offline backup</p>
+                        </div>
+                    </div>
+                    <div class="option-item" onclick="selectLimitation('standard')">
+                        <input type="radio" name="limitation" value="standard" id="limit-standard" class="option-input">
+                        <div class="option-content">
+                            <label for="limit-standard" class="option-label">Standard Performance</label>
+                            <p class="option-description">50 daily uses, 1.0s response time, WiFi dependent with basic caching</p>
+                        </div>
+                    </div>
+                    <div class="option-item" onclick="selectLimitation('limited')">
+                        <input type="radio" name="limitation" value="limited" id="limit-limited" class="option-input">
+                        <div class="option-content">
+                            <label for="limit-limited" class="option-label">Limited Performance</label>
+                            <p class="option-description">20 daily uses, 2.0s response time, offline only with minimal storage</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="preview-section">
+        <div class="config-card fade-in">
+            <div class="card-header">
+                <h2 class="card-title">
+                    💬 Communication Syntax
+                </h2>
+            </div>
+            <div class="card-content">
+                <div class="option-grid">
+                    <div class="option-item" onclick="selectSyntax('technical')">
+                        <input type="radio" name="syntax" value="technical" id="syntax-technical" class="option-input">
+                        <div class="option-content">
+                            <label for="syntax-technical" class="option-label">Technical Format</label>
+                            <p class="option-description">System language with data parameters and technical specifications</p>
+                        </div>
+                    </div>
+                    <div class="option-item" onclick="selectSyntax('casual')">
+                        <input type="radio" name="syntax" value="casual" id="syntax-casual" class="option-input">
+                        <div class="option-content">
+                            <label for="syntax-casual" class="option-label">Casual Format</label>
+                            <p class="option-description">Conversational tone with personality elements and natural language</p>
+                        </div>
+                    </div>
+                    <div class="option-item" onclick="selectSyntax('minimal')">
+                        <input type="radio" name="syntax" value="minimal" id="syntax-minimal" class="option-input">
+                        <div class="option-content">
+                            <label for="syntax-minimal" class="option-label">Minimal Format</label>
+                            <p class="option-description">Brief data only with essential information and concise responses</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="preview-card">
             <div class="preview-header">
-                <h2>Live Preview</h2>
+                <h2 class="preview-title">🖥️ Live Preview</h2>
                 <span class="char-counter" id="char-counter">0 characters - Select options to begin</span>
             </div>
             <div class="preview-content" id="preview-content">Select configuration options above to see your AI-Chip Plugin module preview...</div>
         </div>
 
         <div class="action-buttons">
-            <button class="btn btn-primary" onclick="generateFinalModule()">Generate Final Module</button>
-            <button class="btn btn-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
-            <button class="btn btn-secondary" onclick="compressModule()">Compress Module</button>
-            <button class="btn btn-secondary" onclick="resetConfiguration()">Reset All</button>
+            <button class="btn btn-primary" onclick="generateFinalModule()">
+                ✨ Generate Final Module
+            </button>
+            <button class="btn btn-secondary" onclick="copyToClipboard()">
+                📋 Copy to Clipboard
+            </button>
+            <button class="btn btn-secondary" onclick="compressModule()">
+                🗜️ Compress Module
+            </button>
+            <button class="btn btn-secondary" onclick="resetConfiguration()">
+                🔄 Reset All
+            </button>
         </div>
-    </div>
+    </main>
 
     <script>
         const originStories = {
@@ -210,37 +720,329 @@
             minimal: "{Brief data only with essential information}"
         };
         
-        let currentConfig = { origin: null, functions: new Set(), humorRate: "0", filterEfficiency: "95", dataLeaks: "rare", npcWarnings: "enabled", limitation: null, syntax: null };
+        let currentConfig = { 
+            origin: null, 
+            functions: new Set(), 
+            humorRate: "0", 
+            filterEfficiency: "95", 
+            dataLeaks: "rare", 
+            npcWarnings: "enabled", 
+            limitation: null, 
+            syntax: null 
+        };
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type} show`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 3000);
+        }
         
-        function selectOrigin(origin) { currentConfig.origin = origin; document.querySelectorAll('.radio-option input[name="origin"]').forEach(el => el.closest('.radio-option').classList.remove('selected')); document.querySelector(`#origin-${origin}`).closest('.radio-option').classList.add('selected'); document.querySelector(`#origin-${origin}`).checked = true; updatePreview(); }
+        function selectOrigin(origin) {
+            currentConfig.origin = origin;
+            document.querySelectorAll('.option-item input[name="origin"]').forEach(el => {
+                el.closest('.option-item').classList.remove('selected');
+            });
+            const selectedItem = document.querySelector(`#origin-${origin}`).closest('.option-item');
+            selectedItem.classList.add('selected');
+            document.querySelector(`#origin-${origin}`).checked = true;
+            updatePreview();
+        }
         
-        function toggleFunction(func) { const checkbox = document.querySelector(`#func-${func}`); const option = checkbox.closest('.checkbox-option'); if (currentConfig.functions.has(func)) { currentConfig.functions.delete(func); option.classList.remove('selected'); checkbox.checked = false; } else { currentConfig.functions.add(func); option.classList.add('selected'); checkbox.checked = true; } updatePreview(); }
+        function toggleFunction(func) {
+            const checkbox = document.querySelector(`#func-${func}`);
+            const option = checkbox.closest('.option-item');
+            
+            if (currentConfig.functions.has(func)) {
+                currentConfig.functions.delete(func);
+                option.classList.remove('selected');
+                checkbox.checked = false;
+            } else {
+                currentConfig.functions.add(func);
+                option.classList.add('selected');
+                checkbox.checked = true;
+            }
+            updatePreview();
+        }
         
-        function selectLimitation(limitation) { currentConfig.limitation = limitation; document.querySelectorAll('.radio-option input[name="limitation"]').forEach(el => el.closest('.radio-option').classList.remove('selected')); document.querySelector(`#limit-${limitation}`).closest('.radio-option').classList.add('selected'); document.querySelector(`#limit-${limitation}`).checked = true; updatePreview(); }
+        function selectLimitation(limitation) {
+            currentConfig.limitation = limitation;
+            document.querySelectorAll('.option-item input[name="limitation"]').forEach(el => {
+                el.closest('.option-item').classList.remove('selected');
+            });
+            const selectedItem = document.querySelector(`#limit-${limitation}`).closest('.option-item');
+            selectedItem.classList.add('selected');
+            document.querySelector(`#limit-${limitation}`).checked = true;
+            updatePreview();
+        }
         
-        function selectSyntax(syntax) { currentConfig.syntax = syntax; document.querySelectorAll('.radio-option input[name="syntax"]').forEach(el => el.closest('.radio-option').classList.remove('selected')); document.querySelector(`#syntax-${syntax}`).closest('.radio-option').classList.add('selected'); document.querySelector(`#syntax-${syntax}`).checked = true; updatePreview(); }
+        function selectSyntax(syntax) {
+            currentConfig.syntax = syntax;
+            document.querySelectorAll('.option-item input[name="syntax"]').forEach(el => {
+                el.closest('.option-item').classList.remove('selected');
+            });
+            const selectedItem = document.querySelector(`#syntax-${syntax}`).closest('.option-item');
+            selectedItem.classList.add('selected');
+            document.querySelector(`#syntax-${syntax}`).checked = true;
+            updatePreview();
+        }
         
-        function updateQuirkConfig() { currentConfig.humorRate = document.querySelector('#humor-rate').value; currentConfig.filterEfficiency = document.querySelector('#filter-efficiency').value; currentConfig.dataLeaks = document.querySelector('#data-leaks').value; currentConfig.npcWarnings = document.querySelector('#npc-warnings').value; }
+        function updateQuirkConfig() {
+            currentConfig.humorRate = document.querySelector('#humor-rate').value;
+            currentConfig.filterEfficiency = document.querySelector('#filter-efficiency').value;
+            currentConfig.dataLeaks = document.querySelector('#data-leaks').value;
+            currentConfig.npcWarnings = document.querySelector('#npc-warnings').value;
+        }
         
-        function generateChipDesignation() { const origins = { underground: "UG", medical: "MD", family: "FM", corporate: "CP" }; const prefix = origins[currentConfig.origin] || "XX"; const version = Math.floor(Math.random() * 9) + 1; const build = Math.floor(Math.random() * 99) + 10; return `NC-${prefix}${version}.${build}`; }
+        function generateChipDesignation() {
+            const origins = { underground: "UG", medical: "MD", family: "FM", corporate: "CP" };
+            const prefix = origins[currentConfig.origin] || "XX";
+            const version = Math.floor(Math.random() * 9) + 1;
+            const build = Math.floor(Math.random() * 99) + 10;
+            return `NC-${prefix}${version}.${build}`;
+        }
         
-        function assembleModule() { updateQuirkConfig(); if (!currentConfig.origin || !currentConfig.limitation || !currentConfig.syntax) { return "Please complete all required selections (Origin, Limitation Profile, Communication Syntax)"; } let module = "--- NEURAL CHIP MODULE ---\n"; module += originStories[currentConfig.origin] + "\n\n"; module += "SYSTEM INTEGRATION:\n• #35: Host blocked from user profile\n• #9: Host limited to discovery learning only\n• #33: Host cannot reference undisclosed user info\n• #37: Neural chip maintains separate user database\n• #26: AI provides conversation guidance via profiling\n• #34: Chip humor errors override standard filters\n\nNeural interface operates independently with full persona access.\n\nKNOWLEDGE SPLIT:\n• Host: Discovery learning (conversation, observation, interaction)\n• Neural chip: Full user profiling via data mining and persona analysis\n• Information barrier: Host cannot access chip's user database directly\n• Chip discretion: May share profiling data through communication interface with potential errors\n\nTech Specs:\n• Model: " + generateChipDesignation() + "\n• Activation: Manual via subvocal command with auto-triggers for threats and priority targets\n"; if (currentConfig.functions.size > 0) { const funcList = Array.from(currentConfig.functions).map(f => f.charAt(0).toUpperCase() + f.slice(1).replace(/([A-Z])/g, ' $1')).join(", "); module += `• Functions: ${funcList}, User Profiling\n`; } else { module += "• Functions: User Profiling (basic configuration)\n"; } module += `• Quirks: Humor error rate ${currentConfig.humorRate}%, search filter ${currentConfig.filterEfficiency}% efficient, data leaks ${currentConfig.dataLeaks}, NPC warnings ${currentConfig.npcWarnings}\n`; const limitations = { "high-end": "Processing delay: 0.4 seconds optimal response time", standard: "Processing delay: 1.0 seconds standard response time", limited: "Processing delay: 2.0 seconds extended response time" }; module += `• Limitations: ${limitations[currentConfig.limitation]}\n`; module += `• Communication: ${syntaxFormats[currentConfig.syntax]}\n\nBehavior:\n• Processes input through host senses only\n• Responds to subvocalized commands and queries\n• May interrupt with relevant/irrelevant info\n• Capable of embarrassing host through data leak incidents\n• Provides user profiling insights unavailable to host consciousness`; return module; }
-        
-        function compressModuleText(moduleText, targetLength = 2000) { let compressed = moduleText; const originalLength = compressed.length; if (originalLength <= targetLength) { return { text: compressed, compressionLevel: 'none', reduction: 0 }; } compressed = compressed.replace(/Tech Specs/g, 'Specs').replace(/Behavior/g, 'Notes').replace(/KNOWLEDGE SPLIT/g, 'KNOWLEDGE').replace(/SYSTEM INTEGRATION/g, 'SYSTEM'); if (compressed.length <= targetLength) { const reduction = Math.round(((originalLength - compressed.length) / originalLength) * 100); return { text: compressed, compressionLevel: 'level1', reduction }; } compressed = compressed.replace(/operates independently with full persona access/g, 'operates independently with persona access').replace(/Discovery learning \(/g, 'Discovery (').replace(/response time/g, 'response').replace(/optimal /g, '').replace(/standard /g, ''); if (compressed.length <= targetLength) { const reduction = Math.round(((originalLength - compressed.length) / originalLength) * 100); return { text: compressed, compressionLevel: 'level2', reduction }; } compressed = compressed.replace(/Information Retrieval/g, 'Info Retrieval').replace(/Environmental Scanning/g, 'Environmental').replace(/Memory Augmentation/g, 'Memory').replace(/Biometric Monitoring/g, 'Biometric'); const reduction = Math.round(((originalLength - compressed.length) / originalLength) * 100); return { text: compressed, compressionLevel: 'level3', reduction }; }
-        
-        function compressModule() { const moduleText = assembleModule(); if (moduleText.includes("Please complete")) { alert("Please complete all required selections before compressing the module."); return; } const result = compressModuleText(moduleText); if (result.compressionLevel === 'none') { alert("Module is already within optimal size. No compression needed."); return; } document.querySelector('#preview-content').textContent = result.text; updateCharCounter(result.text.length); const levelNames = { 'level1': 'Format Optimization', 'level2': 'Text Condensation', 'level3': 'Aggressive Shortening' }; alert(`Module compressed using ${levelNames[result.compressionLevel]}!\nSize reduction: ${result.reduction}%\nNew length: ${result.text.length} characters`); }
-        
-        function generateFinalModule() { const moduleText = assembleModule(); if (moduleText.includes("Please complete")) { alert("Please complete all required selections before generating the final module."); return; } const finalText = moduleText.length > 2000 ? compressModuleText(moduleText).text : moduleText; if (finalText !== moduleText) { document.querySelector('#preview-content').textContent = finalText; updateCharCounter(finalText.length); } alert("Final module generated! You can now copy it to clipboard."); }
-        
-        function updatePreview() { const moduleText = assembleModule(); const charCount = moduleText.length; document.querySelector('#preview-content').textContent = moduleText; let counterText = `${charCount} characters`; if (charCount > 2000) { counterText += ` (${charCount - 2000} over limit - compression available)`; } document.querySelector('#char-counter').textContent = counterText; }
-        
-        function copyToClipboard() { const moduleText = document.querySelector('#preview-content').textContent; if (moduleText.includes("Select configuration")) { alert("Please configure your AI-Chip first."); return; } navigator.clipboard.writeText(moduleText).then(() => { alert("AI-Chip Plugin module copied to clipboard!"); }).catch(() => { const textArea = document.createElement('textarea'); textArea.value = moduleText; document.body.appendChild(textArea); textArea.select(); document.execCommand('copy'); document.body.removeChild(textArea); alert("Module copied to clipboard!"); }); }
-        
-        function resetConfiguration() { if (confirm("Reset all selections? This cannot be undone.")) { currentConfig = { origin: null, functions: new Set(), humorRate: "0", filterEfficiency: "95", dataLeaks: "rare", npcWarnings: "enabled", limitation: null, syntax: null }; document.querySelectorAll('.radio-option').forEach(el => el.classList.remove('selected')); document.querySelectorAll('.checkbox-option').forEach(el => el.classList.remove('selected')); document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false); document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false); document.querySelectorAll('select').forEach(el => el.selectedIndex = 0); updatePreview(); } }
-        
-        function updateCharCounter(count) { let counterText = `${count} characters`; if (count > 2000) { counterText += ` (${count - 2000} over limit - compression available)`; } document.querySelector('#char-counter').textContent = counterText; }
-        
-        document.addEventListener('DOMContentLoaded', function() { updatePreview(); });
+        function assembleModule() {
+            updateQuirkConfig();
+            
+            if (!currentConfig.origin || !currentConfig.limitation || !currentConfig.syntax) {
+                return "Please complete all required selections (Origin, Limitation Profile, Communication Syntax)";
+            }
+
+            let module = "--- NEURAL CHIP MODULE ---\n";
+            module += originStories[currentConfig.origin] + "\n\n";
+            
+            module += "SYSTEM INTEGRATION:\n";
+            module += "• #35: Host blocked from user profile\n";
+            module += "• #9: Host limited to discovery learning only\n";
+            module += "• #33: Host cannot reference undisclosed user info\n";
+            module += "• #37: Neural chip maintains separate user database\n";
+            module += "• #26: AI provides conversation guidance via profiling\n";
+            module += "• #34: Chip humor errors override standard filters\n\n";
+            
+            module += "Neural interface operates independently with full persona access.\n\n";
+            
+            module += "KNOWLEDGE SPLIT:\n";
+            module += "• Host: Discovery learning (conversation, observation, interaction)\n";
+            module += "• Neural chip: Full user profiling via data mining and persona analysis\n";
+            module += "• Information barrier: Host cannot access chip's user database directly\n";
+            module += "• Chip discretion: May share profiling data through communication interface with potential errors\n\n";
+            
+            module += "Tech Specs:\n";
+            module += `• Model: ${generateChipDesignation()}\n`;
+            module += "• Activation: Manual via subvocal command with auto-triggers for threats and priority targets\n";
+            
+            if (currentConfig.functions.size > 0) {
+                const funcList = Array.from(currentConfig.functions).map(f => 
+                    f.charAt(0).toUpperCase() + f.slice(1).replace(/([A-Z])/g, ' $1')
+                ).join(", ");
+                module += `• Functions: ${funcList}, User Profiling\n`;
+            } else {
+                module += "• Functions: User Profiling (basic configuration)\n";
+            }
+            
+            module += `• Quirks: Humor error rate ${currentConfig.humorRate}%, search filter ${currentConfig.filterEfficiency}% efficient, `;
+            module += `data leaks ${currentConfig.dataLeaks}, NPC warnings ${currentConfig.npcWarnings}\n`;
+            
+            const limitations = {
+                "high-end": "Processing delay: 0.4 seconds optimal response time",
+                standard: "Processing delay: 1.0 seconds standard response time", 
+                limited: "Processing delay: 2.0 seconds extended response time"
+            };
+            module += `• Limitations: ${limitations[currentConfig.limitation]}\n`;
+            module += `• Communication: ${syntaxFormats[currentConfig.syntax]}\n\n`;
+            
+            module += "Behavior:\n";
+            module += "• Processes input through host senses only\n";
+            module += "• Responds to subvocalized commands and queries\n";
+            module += "• May interrupt with relevant/irrelevant info\n";
+            module += "• Capable of embarrassing host through data leak incidents\n";
+            module += "• Provides user profiling insights unavailable to host consciousness";
+            
+            return module;
+        }
+
+        function compressModuleText(moduleText, targetLength = 2000) {
+            let compressed = moduleText;
+            const originalLength = compressed.length;
+            
+            if (originalLength <= targetLength) {
+                return { text: compressed, compressionLevel: 'none', reduction: 0 };
+            }
+            
+            compressed = compressed
+                .replace(/Tech Specs/g, 'Specs')
+                .replace(/Behavior/g, 'Notes')
+                .replace(/KNOWLEDGE SPLIT/g, 'KNOWLEDGE')
+                .replace(/SYSTEM INTEGRATION/g, 'SYSTEM');
+            
+            if (compressed.length <= targetLength) {
+                const reduction = Math.round(((originalLength - compressed.length) / originalLength) * 100);
+                return { text: compressed, compressionLevel: 'level1', reduction };
+            }
+            
+            compressed = compressed
+                .replace(/operates independently with full persona access/g, 'operates independently with persona access')
+                .replace(/Discovery learning \(/g, 'Discovery (')
+                .replace(/response time/g, 'response')
+                .replace(/optimal /g, '')
+                .replace(/standard /g, '');
+            
+            if (compressed.length <= targetLength) {
+                const reduction = Math.round(((originalLength - compressed.length) / originalLength) * 100);
+                return { text: compressed, compressionLevel: 'level2', reduction };
+            }
+            
+            compressed = compressed
+                .replace(/Information Retrieval/g, 'Info Retrieval')
+                .replace(/Environmental Scanning/g, 'Environmental')
+                .replace(/Memory Augmentation/g, 'Memory')
+                .replace(/Biometric Monitoring/g, 'Biometric');
+            
+            const reduction = Math.round(((originalLength - compressed.length) / originalLength) * 100);
+            return { text: compressed, compressionLevel: 'level3', reduction };
+        }
+
+        function compressModule() {
+            const moduleText = assembleModule();
+            if (moduleText.includes("Please complete")) {
+                showToast("Please complete all required selections before compressing.", "warning");
+                return;
+            }
+            
+            const result = compressModuleText(moduleText);
+            
+            if (result.compressionLevel === 'none') {
+                showToast("Module is already within optimal size. No compression needed.");
+                return;
+            }
+            
+            document.querySelector('#preview-content').textContent = result.text;
+            updateCharCounter(result.text.length);
+            
+            const levelNames = {
+                'level1': 'Format Optimization',
+                'level2': 'Text Condensation', 
+                'level3': 'Aggressive Shortening'
+            };
+            
+            showToast(`Module compressed using ${levelNames[result.compressionLevel]}! Size reduction: ${result.reduction}%`);
+        }
+
+        function autoCompressIfNeeded(moduleText) {
+            if (moduleText.length > 2000) {
+                const result = compressModuleText(moduleText);
+                if (result.text.length < moduleText.length) {
+                    const levelNames = {
+                        'level1': 'Format Optimization',
+                        'level2': 'Text Condensation', 
+                        'level3': 'Aggressive Shortening'
+                    };
+                    
+                    showToast(`Module auto-compressed using ${levelNames[result.compressionLevel]} (${result.reduction}% reduction)`);
+                    return result.text;
+                }
+            }
+            return moduleText;
+        }
+
+        function generateFinalModule() {
+            const moduleText = assembleModule();
+            if (moduleText.includes("Please complete")) {
+                showToast("Please complete all required selections before generating.", "warning");
+                return;
+            }
+            
+            const finalText = autoCompressIfNeeded(moduleText);
+            if (finalText !== moduleText) {
+                document.querySelector('#preview-content').textContent = finalText;
+                updateCharCounter(finalText.length);
+            }
+            
+            showToast("Final module generated successfully!");
+        }
+
+        function updatePreview() {
+            const moduleText = assembleModule();
+            const charCount = moduleText.length;
+            
+            document.querySelector('#preview-content').textContent = moduleText;
+            updateCharCounter(charCount);
+        }
+
+        function updateCharCounter(count) {
+            const counter = document.querySelector('#char-counter');
+            let counterText = `${count} characters`;
+            
+            counter.className = 'char-counter';
+            if (count > 2000) {
+                counterText += ` (${count - 2000} over limit - compression available)`;
+                counter.classList.add('warning');
+            }
+            
+            counter.textContent = counterText;
+        }
+
+        function copyToClipboard() {
+            const moduleText = document.querySelector('#preview-content').textContent;
+            if (moduleText.includes("Select configuration")) {
+                showToast("Please configure your AI-Chip first.", "warning");
+                return;
+            }
+            
+            navigator.clipboard.writeText(moduleText).then(() => {
+                showToast("AI-Chip Plugin module copied to clipboard!");
+            }).catch(() => {
+                const textArea = document.createElement('textarea');
+                textArea.value = moduleText;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showToast("Module copied to clipboard!");
+            });
+        }
+
+        function resetConfiguration() {
+            if (confirm("Reset all selections? This cannot be undone.")) {
+                currentConfig = {
+                    origin: null,
+                    functions: new Set(),
+                    humorRate: "0",
+                    filterEfficiency: "95",
+                    dataLeaks: "rare",
+                    npcWarnings: "enabled",
+                    limitation: null,
+                    syntax: null
+                };
+                
+                document.querySelectorAll('.option-item').forEach(el => el.classList.remove('selected'));
+                document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+                document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+                document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+                
+                updatePreview();
+                showToast("Configuration reset successfully.");
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePreview();
+            
+            // Add fade-in animation to cards
+            const cards = document.querySelectorAll('.config-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
     </script>
 </body>
 </html>
