@@ -150,20 +150,6 @@
             margin-right: 0.5rem;
         }
 
-        .config-code {
-            background: var(--gray-900);
-            color: #10b981;
-            padding: 1rem;
-            border-radius: var(--radius-md);
-            font-family: var(--font-mono);
-            font-size: var(--text-xs);
-            white-space: pre-wrap;
-            overflow-x: auto;
-            margin: 1rem 0;
-            max-height: 200px;
-            border: 1px solid var(--gray-700);
-        }
-
         .config-actions {
             display: flex;
             gap: 1rem;
@@ -239,6 +225,21 @@
             color: var(--error);
         }
 
+        .config-code {
+            background: var(--gray-900);
+            color: #10b981;
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            white-space: pre-wrap;
+            overflow-x: auto;
+            margin: 1rem 0;
+            max-height: 200px;
+            border: 1px solid var(--gray-700);
+            display: none;
+        }
+
         .hidden {
             display: none;
         }
@@ -304,7 +305,7 @@
                             <button class="copy-btn" onclick="copyConfig('first-time')">📋 Copy Configuration</button>
                             <button class="view-btn" onclick="toggleCode('first-time')">👁️ View Code</button>
                         </div>
-                        <div id="first-time-code" class="config-code hidden">At age 12, you inherited an experimental neural interface from your eccentric Aunt Marina, a former neuroscientist who specialized in memory enhancement. The AI chip provides information retrieval and social profiling with occasional humor timing errors (15% rate). Standard limitations: 50 daily uses, WiFi dependent, 1.0s delay. {Processing user data: enabled. Response format: technical analysis, 12-word limit. Humor module: active with 15% error rate.}</div>
+                        <div id="first-time-code" class="config-code">At age 12, you inherited an experimental neural interface from your eccentric Aunt Marina, a former neuroscientist who specialized in memory enhancement. The AI chip provides information retrieval and social profiling with occasional humor timing errors (15% rate). Standard limitations: 50 daily uses, WiFi dependent, 1.0s delay. {Processing user data: enabled. Response format: technical analysis, 12-word limit. Humor module: active with 15% error rate.}</div>
                     </div>
                 </div>
 
@@ -334,7 +335,7 @@
                             <button class="copy-btn" onclick="copyConfig('office-assistant')">📋 Copy Configuration</button>
                             <button class="view-btn" onclick="toggleCode('office-assistant')">👁️ View Code</button>
                         </div>
-                        <div id="office-assistant-code" class="config-code hidden">At 12, you participated in CyberDyne Corp's "Future Leaders" program, receiving a prototype productivity enhancement chip. The AI provides memory augmentation and information retrieval with minimal quirks for professional use. High-end specs: unlimited daily use, 0.4s response, 5G+offline capable. {Data processing: work-optimized. Memory functions: meeting notes, deadline tracking. Quirk rate: minimal for workplace.}</div>
+                        <div id="office-assistant-code" class="config-code">At 12, you participated in CyberDyne Corp's "Future Leaders" program, receiving a prototype productivity enhancement chip. The AI provides memory augmentation and information retrieval with minimal quirks for professional use. High-end specs: unlimited daily use, 0.4s response, 5G+offline capable. {Data processing: work-optimized. Memory functions: meeting notes, deadline tracking. Quirk rate: minimal for workplace.}</div>
                     </div>
                 </div>
 
@@ -365,7 +366,7 @@
                             <button class="copy-btn" onclick="copyConfig('urban-navigator')">📋 Copy Configuration</button>
                             <button class="view-btn" onclick="toggleCode('urban-navigator')">👁️ View Code</button>
                         </div>
-                        <div id="urban-navigator-code" class="config-code hidden">At 12, you acquired a military-grade tactical chip through underground tech dealers in the city's electronics district. The AI specializes in threat assessment and environmental scanning with NPC bias warnings enabled. Standard specs with 30% humor errors. {Tactical mode: active. Environmental scan: continuous. Threat detection: enabled. Bias warnings: active for NPC interactions.}</div>
+                        <div id="urban-navigator-code" class="config-code">At 12, you acquired a military-grade tactical chip through underground tech dealers in the city's electronics district. The AI specializes in threat assessment and environmental scanning with NPC bias warnings enabled. Standard specs with 30% humor errors. {Tactical mode: active. Environmental scan: continuous. Threat detection: enabled. Bias warnings: active for NPC interactions.}</div>
                     </div>
                 </div>
 
@@ -395,7 +396,7 @@
                             <button class="copy-btn" onclick="copyConfig('social-butterfly')">📋 Copy Configuration</button>
                             <button class="view-btn" onclick="toggleCode('social-butterfly')">👁️ View Code</button>
                         </div>
-                        <div id="social-butterfly-code" class="config-code hidden">At 12, you joined Dr. Rebecca Chen's social cognition enhancement study, receiving an experimental empathy-augmentation chip. The AI provides social profiling and memory functions with high quirk rates (50% humor errors, frequent data leaks). Light compression preserves full personality. {Social analysis: active. Memory diary: enabled. Quirk settings: maximum entertainment. Data leak frequency: high for amusing interactions.}</div>
+                        <div id="social-butterfly-code" class="config-code">At 12, you joined Dr. Rebecca Chen's social cognition enhancement study, receiving an experimental empathy-augmentation chip. The AI provides social profiling and memory functions with high quirk rates (50% humor errors, frequent data leaks). Light compression preserves full personality. {Social analysis: active. Memory diary: enabled. Quirk settings: maximum entertainment. Data leak frequency: high for amusing interactions.}</div>
                     </div>
                 </div>
 
@@ -426,7 +427,7 @@
                             <button class="copy-btn" onclick="copyConfig('tactical-operator')">📋 Copy Configuration</button>
                             <button class="view-btn" onclick="toggleCode('tactical-operator')">👁️ View Code</button>
                         </div>
-                        <div id="tactical-operator-code" class="config-code hidden">At 12, you received a classified military-grade neural enhancement during a "gifted student" program that was actually a defense contractor recruitment initiative. Full tactical suite: threat assessment, environmental scanning, biometric monitoring. High-end specs, minimal quirks for operational focus. {Combat analysis: enabled. Environmental threats: continuous monitoring. Biometric tracking: stress/health indicators. Operational mode: serious tactical applications.}</div>
+                        <div id="tactical-operator-code" class="config-code">At 12, you received a classified military-grade neural enhancement during a "gifted student" program that was actually a defense contractor recruitment initiative. Full tactical suite: threat assessment, environmental scanning, biometric monitoring. High-end specs, minimal quirks for operational focus. {Combat analysis: enabled. Environmental threats: continuous monitoring. Biometric tracking: stress/health indicators. Operational mode: serious tactical applications.}</div>
                     </div>
                 </div>
 
@@ -456,7 +457,7 @@
                             <button class="copy-btn" onclick="copyConfig('renaissance-mind')">📋 Copy Configuration</button>
                             <button class="view-btn" onclick="toggleCode('renaissance-mind')">👁️ View Code</button>
                         </div>
-                        <div id="renaissance-mind-code" class="config-code hidden">At 12, you were selected for NeoCortex Industries' "Universal Enhancement Protocol" - their most advanced cognitive augmentation system. All functions enabled: tactical analysis, information retrieval, memory augmentation, biometric monitoring, environmental scanning, social profiling. Balanced quirks (30% humor, occasional data leaks). {Full spectrum analysis: enabled. Cognitive enhancement: maximum. All systems: operational. Renaissance mode: active for comprehensive life optimization.}</div>
+                        <div id="renaissance-mind-code" class="config-code">At 12, you were selected for NeoCortex Industries' "Universal Enhancement Protocol" - their most advanced cognitive augmentation system. All functions enabled: tactical analysis, information retrieval, memory augmentation, biometric monitoring, environmental scanning, social profiling. Balanced quirks (30% humor, occasional data leaks). {Full spectrum analysis: enabled. Cognitive enhancement: maximum. All systems: operational. Renaissance mode: active for comprehensive life optimization.}</div>
                     </div>
                 </div>
 
@@ -486,7 +487,7 @@
                             <button class="copy-btn" onclick="copyConfig('creative-catalyst')">📋 Copy Configuration</button>
                             <button class="view-btn" onclick="toggleCode('creative-catalyst')">👁️ View Code</button>
                         </div>
-                        <div id="creative-catalyst-code" class="config-code hidden">At 12, you inherited an artistic enhancement chip from your grandmother Elena, a renowned digital artist who believed technology should amplify human creativity. Memory augmentation and information retrieval optimized for creative work, with 30% humor errors that often provide unexpected inspiration. {Creative mode: active. Inspiration algorithms: enabled. Memory palace: artistic references. Search filters: 75% efficiency for broader creative input.}</div>
+                        <div id="creative-catalyst-code" class="config-code">At 12, you inherited an artistic enhancement chip from your grandmother Elena, a renowned digital artist who believed technology should amplify human creativity. Memory augmentation and information retrieval optimized for creative work, with 30% humor errors that often provide unexpected inspiration. {Creative mode: active. Inspiration algorithms: enabled. Memory palace: artistic references. Search filters: 75% efficiency for broader creative input.}</div>
                     </div>
                 </div>
             </div>
@@ -546,11 +547,11 @@
             const codeElement = document.getElementById(configId + '-code');
             const button = event.target;
             
-            if (codeElement.classList.contains('hidden')) {
-                codeElement.classList.remove('hidden');
+            if (codeElement.style.display === 'none' || codeElement.style.display === '') {
+                codeElement.style.display = 'block';
                 button.textContent = '🙈 Hide Code';
             } else {
-                codeElement.classList.add('hidden');
+                codeElement.style.display = 'none';
                 button.textContent = '👁️ View Code';
             }
         }
