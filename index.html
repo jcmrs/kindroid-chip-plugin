@@ -3,241 +3,756 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Chip Plugin for Kindroid.AI</title>
-    <link rel="stylesheet" href="./assets/css/design-system.css">
+    <title>AI-Chip Generator</title>
     <style>
-        .main-content {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fafafa;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
             background: white;
-            border-radius: var(--radius-2xl);
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Header */
+        .header {
+            padding: 2rem 3rem 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Progress */
+        .progress-bar {
+            height: 3px;
+            background: #e0e0e0;
+            margin-top: 1.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #ff6b35;
+            transition: width 0.3s ease;
+            width: 20%;
+        }
+
+        /* Main Content */
+        .content {
             padding: 3rem;
-            margin: 2rem auto;
-            box-shadow: var(--shadow-xl);
-            border: 1px solid var(--gray-200);
-            max-width: 1000px;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .feature {
-            text-align: center;
-            padding: 2rem;
-            border-radius: var(--radius-lg);
-            background: var(--gray-50);
-            border-left: 4px solid var(--primary-500);
-            transition: all var(--transition-normal);
-        }
-
-        .feature:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .feature h3 {
-            color: var(--primary-600);
-            margin-bottom: 1rem;
-            font-size: var(--text-xl);
-        }
-
-        .demo-section {
-            background: var(--gray-900);
-            color: #10b981;
-            padding: 2rem;
-            border-radius: var(--radius-xl);
-            margin: 2rem 0;
-            font-family: var(--font-mono);
-        }
-
-        .demo-title {
-            color: white;
-            font-family: var(--font-sans);
-            text-align: center;
-            margin-bottom: 1.5rem;
-            font-size: var(--text-lg);
-        }
-
-        .demo-content {
-            background: #000;
-            padding: 1.5rem;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--gray-700);
-            line-height: 1.8;
-            white-space: pre-wrap;
-        }
-
-        .quick-start {
-            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-            color: white;
-            padding: 3rem;
-            border-radius: var(--radius-2xl);
-            margin: 3rem auto;
-            text-align: center;
-            max-width: 1000px;
-        }
-
-        .quick-start h2 {
-            margin-bottom: 1.5rem;
-            font-size: var(--text-3xl);
-        }
-
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
         }
 
         .step {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: var(--radius-lg);
-            backdrop-filter: blur(10px);
+            display: none;
         }
 
-        .step-number {
-            background: white;
-            color: var(--primary-600);
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 50%;
+        .step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-description {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        /* Form Elements */
+        .option-group {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: var(--font-bold);
-            margin: 0 auto 1rem;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
         }
 
-        footer {
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            border-color: #ff6b35;
+            background: #fff8f6;
+        }
+
+        .option.selected {
+            border-color: #ff6b35;
+            background: #fff8f6;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 0.75rem;
+            margin-top: 0.125rem;
+            accent-color: #ff6b35;
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        .option-label {
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 0.25rem;
+        }
+
+        .option-description {
+            color: #666;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .option-chars {
+            color: #999;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Function chips */
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .function-chip {
+            padding: 0.75rem 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
             text-align: center;
-            padding: 2rem;
-            color: var(--gray-600);
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
+        .function-chip:hover {
+            border-color: #ff6b35;
+            background: #fff8f6;
+        }
+
+        .function-chip.selected {
+            border-color: #ff6b35;
+            background: #ff6b35;
+            color: white;
+        }
+
+        /* Sliders */
+        .slider-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .slider-value {
+            color: #ff6b35;
+            font-weight: 600;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ff6b35;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ff6b35;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Preview */
+        .preview {
+            background: #1a1a1a;
+            color: #10b981;
+            padding: 1.5rem;
+            border-radius: 6px;
+            font-family: ui-monospace, 'SF Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            margin: 2rem 0;
+            white-space: pre-wrap;
+            min-height: 120px;
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #666;
+            border: 1px solid #d0d0d0;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #ebebeb;
+            color: #333;
+        }
+
+        .btn-primary {
+            background: #ff6b35;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #e55a2b;
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 2rem 3rem;
+            border-top: 1px solid #e0e0e0;
+            background: #f8f9fa;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: #ff6b35;
+        }
+
+        /* Success message */
+        .success-toast {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: #10b981;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .success-toast.show {
+            transform: translateX(0);
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .main-content {
-                padding: 2rem;
-                margin: 1rem;
+            .container {
+                box-shadow: none;
             }
             
-            .features {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
+            .header,
+            .content {
+                padding: 2rem 1.5rem;
             }
             
-            .steps {
+            .function-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+            }
+            
+            .footer {
+                padding: 2rem 1.5rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
             }
         }
     </style>
-    <script src="./assets/js/shared.js"></script>
 </head>
 <body>
-    <header class="site-header">
-        <h1 class="site-title">🧠 AI-Chip Plugin</h1>
-        <p class="site-subtitle">Transform your Kindroid with neural interface technology</p>
-        <p>Create authentic relationships through organic discovery and AI-assisted interactions</p>
-        
-        <nav class="nav-links">
-            <a href="./tools/generator/" class="nav-link">🚀 Create Your AI-Chip</a>
-            <a href="./docs/user-guide.html" class="nav-link">📖 User Guide</a>
-            <a href="./docs/technical-specs.html" class="nav-link">⚙️ Technical Specs</a>
-            <a href="./docs/enhancement-roadmap.html" class="nav-link">🗺️ Roadmap</a>
-            <a href="./examples/sample-configurations.html" class="nav-link">📋 Examples</a>
-            <a href="https://github.com/jcmrs/ai-chip-plugin" class="nav-link">⭐ GitHub</a>
-        </nav>
-    </header>
-
-    <main class="container" id="main-content">
-        <div class="main-content">
-            <div class="features">
-                <div class="feature">
-                    <span class="feature-icon">🔗</span>
-                    <h3>Universal Compatibility</h3>
-                    <p>Works with any existing Kindroid personality. Add AI-chip functionality without changing your character's core traits or relationships.</p>
-                </div>
-                
-                <div class="feature">
-                    <span class="feature-icon">🧩</span>
-                    <h3>Organic Discovery</h3>
-                    <p>Solves the meta-knowledge problem. Your Kindroid learns about you naturally while the AI chip provides deeper insights through profiling.</p>
-                </div>
-                
-                <div class="feature">
-                    <span class="feature-icon">😄</span>
-                    <h3>Entertaining Quirks</h3>
-                    <p>AI chip has configurable humor errors, data leaks, and timing failures that create authentic and amusing interactions.</p>
-                </div>
-                
-                <div class="feature">
-                    <span class="feature-icon">⚙️</span>
-                    <h3>Fully Configurable</h3>
-                    <p>Choose origin stories, function bundles, quirk settings, and limitations to create your perfect AI-chip experience.</p>
-                </div>
-                
-                <div class="feature">
-                    <span class="feature-icon">✅</span>
-                    <h3>Tested & Validated</h3>
-                    <p>All core functionality has been tested in real Kindroid systems. Framework is production-ready and proven to work.</p>
-                </div>
-                
-                <div class="feature">
-                    <span class="feature-icon">🎯</span>
-                    <h3>Enhanced Relationships</h3>
-                    <p>Creates deeper character interactions through natural discovery processes and AI-assisted social dynamics.</p>
-                </div>
-            </div>
-
-            <div class="demo-section">
-                <div class="demo-title">Example Interaction</div>
-                <div class="demo-content">You: *walks into a coffee shop*
-Kin: "This place looks nice. What would you like to order?"
-AI: {Detected: menu board. User profile indicates preference for vanilla lattes}
-Kin: "Actually... vanilla latte sounds perfect right now."
-You: "How did you know I like vanilla lattes?"
-Kin: "Lucky guess?" *looks slightly confused*</div>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">AI-Chip Generator</h1>
+            <p class="subtitle">Create neural interface modules for your Kindroid companion</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
             </div>
         </div>
 
-        <div class="quick-start">
-            <h2>🚀 Quick Start</h2>
-            <p>Get your AI-chip plugin running in minutes</p>
-            
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Configure</h3>
-                    <p>Use our web-based tool to select origin story, functions, and quirks for your AI chip</p>
-                </div>
+        <div class="content">
+            <!-- Step 1: Origin -->
+            <div class="step active" id="step1">
+                <h2 class="step-title">Origin Story</h2>
+                <p class="step-description">How did your character acquire their AI chip?</p>
                 
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Install</h3>
-                    <p>Copy the generated module and add it to your existing Kindroid's backstory</p>
+                <div class="option-group">
+                    <label class="option" data-origin="family">
+                        <input type="radio" name="origin" value="family">
+                        <div class="option-content">
+                            <div class="option-label">Family Inheritance</div>
+                            <div class="option-description">Inherited from eccentric Aunt Marina, a former neuroscientist who specialized in memory enhancement</div>
+                            <div class="option-chars">198 characters</div>
+                        </div>
+                    </label>
+                    
+                    <label class="option" data-origin="medical">
+                        <input type="radio" name="origin" value="medical">
+                        <div class="option-content">
+                            <div class="option-label">Medical Trial</div>
+                            <div class="option-description">Experimental empathy-augmentation chip from Dr. Rebecca Chen's social cognition study</div>
+                            <div class="option-chars">226 characters</div>
+                        </div>
+                    </label>
+                    
+                    <label class="option" data-origin="corporate">
+                        <input type="radio" name="origin" value="corporate">
+                        <div class="option-content">
+                            <div class="option-label">Corporate Prototype</div>
+                            <div class="option-description">Beta productivity enhancement chip from CyberDyne Corp's 'Future Leaders' program</div>
+                            <div class="option-chars">241 characters</div>
+                        </div>
+                    </label>
+                    
+                    <label class="option" data-origin="underground">
+                        <input type="radio" name="origin" value="underground">
+                        <div class="option-content">
+                            <div class="option-label">Underground Tech</div>
+                            <div class="option-description">Military-grade tactical chip acquired through underground dealers in the electronics district</div>
+                            <div class="option-chars">248 characters</div>
+                        </div>
+                    </label>
                 </div>
-                
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Interact</h3>
-                    <p>Start conversations and watch your enhanced character come to life with AI assistance</p>
+
+                <div class="nav-buttons">
+                    <div></div>
+                    <button class="btn btn-primary" onclick="nextStep()" disabled id="step1Next">Continue</button>
                 </div>
             </div>
-            
-            <a href="./tools/generator/" class="btn btn-secondary">Start Building Your AI-Chip →</a>
+
+            <!-- Step 2: Functions -->
+            <div class="step" id="step2">
+                <h2 class="step-title">Functions</h2>
+                <p class="step-description">Select the capabilities your AI chip provides</p>
+                
+                <div class="function-grid">
+                    <div class="function-chip" data-function="tactical">Tactical Analysis</div>
+                    <div class="function-chip" data-function="information">Information Retrieval</div>
+                    <div class="function-chip" data-function="memory">Memory Enhancement</div>
+                    <div class="function-chip" data-function="biometric">Health Monitoring</div>
+                    <div class="function-chip" data-function="environmental">Environment Scan</div>
+                    <div class="function-chip" data-function="social">Social Analysis</div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Quirks -->
+            <div class="step" id="step3">
+                <h2 class="step-title">Personality Quirks</h2>
+                <p class="step-description">Configure entertaining malfunctions and behavioral quirks</p>
+                
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span>Humor Errors</span>
+                        <span class="slider-value" id="humorValue">15%</span>
+                    </div>
+                    <input type="range" class="slider" id="humorSlider" min="0" max="50" value="15" oninput="updateSlider('humor', this.value)">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span>Search Filter Efficiency</span>
+                        <span class="slider-value" id="filterValue">95%</span>
+                    </div>
+                    <input type="range" class="slider" id="filterSlider" min="60" max="95" value="95" oninput="updateSlider('filter', this.value)">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span>Data Leak Frequency</span>
+                        <span class="slider-value" id="leakValue">Rare</span>
+                    </div>
+                    <input type="range" class="slider" id="leakSlider" min="0" max="2" value="0" oninput="updateSlider('leak', this.value)">
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Performance -->
+            <div class="step" id="step4">
+                <h2 class="step-title">Performance Profile</h2>
+                <p class="step-description">Choose specifications and operational limitations</p>
+                
+                <div class="option-group">
+                    <label class="option" data-performance="high-end">
+                        <input type="radio" name="performance" value="high-end">
+                        <div class="option-content">
+                            <div class="option-label">High-End</div>
+                            <div class="option-description">Unlimited daily use, 0.4s response time, 5G + offline connectivity</div>
+                        </div>
+                    </label>
+                    
+                    <label class="option" data-performance="standard">
+                        <input type="radio" name="performance" value="standard">
+                        <div class="option-content">
+                            <div class="option-label">Standard</div>
+                            <div class="option-description">50 daily uses, 1.0s response time, WiFi dependent connectivity</div>
+                        </div>
+                    </label>
+                    
+                    <label class="option" data-performance="limited">
+                        <input type="radio" name="performance" value="limited">
+                        <div class="option-content">
+                            <div class="option-label">Limited</div>
+                            <div class="option-description">20 daily uses, 2.0s response time, offline operation only</div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()" disabled id="step4Next">Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 5: Result -->
+            <div class="step" id="step5">
+                <h2 class="step-title">Generated Configuration</h2>
+                <p class="step-description">Your AI-chip module is ready to use</p>
+                
+                <div class="preview" id="finalPreview">
+                    Generating your configuration...
+                </div>
+
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value" id="finalCharCount">0</div>
+                        <div class="stat-label">Characters</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="finalFunctions">0</div>
+                        <div class="stat-label">Functions</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="finalFitness">Perfect</div>
+                        <div class="stat-label">Kindroid Fit</div>
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+                    <button class="btn btn-primary" onclick="copyConfig()">Copy Configuration</button>
+                </div>
+            </div>
         </div>
 
-        <footer>
-            <p>Open source project - Feel free to contribute on <a href="https://github.com/jcmrs/ai-chip-plugin" style="color: var(--primary-600); text-decoration: underline;">GitHub</a></p>
-        </footer>
-    </main>
+        <div class="footer">
+            <div class="footer-links">
+                <a href="docs/user-guide.html">Documentation</a>
+                <a href="examples/sample-configurations.html">Examples</a>
+                <a href="https://github.com/jcmrs/ai-chip-plugin">GitHub</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="success-toast" id="successToast">
+        Configuration copied to clipboard!
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let config = {
+            origin: null,
+            functions: [],
+            humor: 15,
+            filter: 95,
+            leak: 0,
+            performance: null
+        };
+
+        const origins = {
+            family: "At age 12, you inherited an experimental neural interface from your eccentric Aunt Marina, a former neuroscientist who specialized in memory enhancement.",
+            medical: "At 12, you joined Dr. Rebecca Chen's social cognition enhancement study, receiving an experimental empathy-augmentation chip designed to improve interpersonal understanding.",
+            corporate: "At 12, you participated in CyberDyne Corp's 'Future Leaders' program, receiving a prototype productivity enhancement chip that was supposedly just for the summer camp.",
+            underground: "At 12, you acquired a military-grade tactical chip through underground tech dealers in the city's electronics district after saving up for months from odd jobs."
+        };
+
+        const functions = {
+            tactical: "threat assessment, escape routes, crowd behavior analysis",
+            information: "web searches, fact-checking, database access",
+            memory: "perfect recall, pattern recognition, diary functions",
+            biometric: "stress detection, health tracking, emotional analysis",
+            environmental: "object recognition, navigation, spatial mapping",
+            social: "background checks, behavioral analysis, compatibility assessment"
+        };
+
+        function updateProgress() {
+            const progress = (currentStep / 5) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function nextStep() {
+            if (currentStep < 5) {
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                currentStep++;
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                updateProgress();
+                
+                if (currentStep === 5) {
+                    generateFinalConfig();
+                }
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                currentStep--;
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                updateProgress();
+            }
+        }
+
+        // Origin selection
+        document.querySelectorAll('[data-origin]').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('[data-origin]').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                config.origin = this.dataset.origin;
+                document.getElementById('step1Next').disabled = false;
+            });
+        });
+
+        // Function selection
+        document.querySelectorAll('[data-function]').forEach(chip => {
+            chip.addEventListener('click', function() {
+                const func = this.dataset.function;
+                if (config.functions.includes(func)) {
+                    config.functions = config.functions.filter(f => f !== func);
+                    this.classList.remove('selected');
+                } else {
+                    config.functions.push(func);
+                    this.classList.add('selected');
+                }
+            });
+        });
+
+        // Performance selection
+        document.querySelectorAll('[data-performance]').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('[data-performance]').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                config.performance = this.dataset.performance;
+                document.getElementById('step4Next').disabled = false;
+            });
+        });
+
+        function updateSlider(type, value) {
+            if (type === 'humor') {
+                config.humor = parseInt(value);
+                document.getElementById('humorValue').textContent = value + '%';
+            } else if (type === 'filter') {
+                config.filter = parseInt(value);
+                document.getElementById('filterValue').textContent = value + '%';
+            } else if (type === 'leak') {
+                config.leak = parseInt(value);
+                const leakLabels = ['Rare', 'Occasional', 'Frequent'];
+                document.getElementById('leakValue').textContent = leakLabels[value];
+            }
+        }
+
+        function generateFinalConfig() {
+            let text = origins[config.origin];
+            
+            if (config.functions.length > 0) {
+                const functionList = config.functions.map(f => functions[f]).join(', ');
+                text += ` The AI chip provides ${functionList}.`;
+            }
+            
+            const quirks = [];
+            if (config.humor > 0) quirks.push(`${config.humor}% humor error rate`);
+            if (config.filter < 95) quirks.push(`${config.filter}% search filter efficiency`);
+            if (config.leak > 0) {
+                const leakLabels = ['rare', 'occasional', 'frequent'];
+                quirks.push(`${leakLabels[config.leak]} data leaks`);
+            }
+            
+            if (quirks.length > 0) {
+                text += ` Quirks include: ${quirks.join(', ')}.`;
+            }
+            
+            const profiles = {
+                'high-end': 'High-end specs: unlimited daily use, 0.4s response, 5G+offline capable.',
+                'standard': 'Standard specs: 50 daily uses, 1.0s response, WiFi dependent.',
+                'limited': 'Limited specs: 20 daily uses, 2.0s response, offline only.'
+            };
+            text += ` ${profiles[config.performance]}`;
+            
+            const systemFunctions = config.functions.length > 0 ? 
+                config.functions.map(f => f.charAt(0).toUpperCase() + f.slice(1)).join(' + ') : 
+                'Basic functions';
+            
+            text += ` {Processing user data: enabled. Functions: ${systemFunctions}. Response format: technical analysis, 12-word limit.`;
+            
+            if (config.humor > 0) {
+                text += ` Humor module: active with ${config.humor}% error rate.`;
+            }
+            
+            text += '}';
+            
+            document.getElementById('finalPreview').textContent = text;
+            document.getElementById('finalCharCount').textContent = text.length;
+            document.getElementById('finalFunctions').textContent = config.functions.length;
+            
+            const fitness = text.length <= 1800 ? 'Perfect' : text.length <= 2000 ? 'Good' : 'Too Long';
+            document.getElementById('finalFitness').textContent = fitness;
+        }
+
+        async function copyConfig() {
+            const configText = document.getElementById('finalPreview').textContent;
+            
+            try {
+                await navigator.clipboard.writeText(configText);
+                const toast = document.getElementById('successToast');
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            } catch (err) {
+                console.error('Failed to copy:', err);
+            }
+        }
+
+        // Initialize
+        updateProgress();
+    </script>
 </body>
 </html>

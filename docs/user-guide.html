@@ -5,295 +5,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Guide - AI-Chip Plugin</title>
     <link rel="stylesheet" href="../assets/css/design-system.css">
-    <style>
-        .content {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: var(--radius-2xl);
-            padding: 3rem;
-            box-shadow: var(--shadow-xl);
-            border: 1px solid var(--gray-200);
-        }
-
-        .toc {
-            background: var(--gray-50);
-            padding: 2rem;
-            border-radius: var(--radius-lg);
-            margin-bottom: 2rem;
-            border-left: 4px solid var(--primary-500);
-        }
-
-        .toc ul {
-            list-style: none;
-        }
-
-        .toc li {
-            margin: 0.5rem 0;
-        }
-
-        .toc a {
-            color: var(--primary-600);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .toc a:hover {
-            text-decoration: underline;
-        }
-
-        .section {
-            margin: 3rem 0;
-        }
-
-        .section h2 {
-            color: var(--primary-600);
-            border-bottom: 2px solid var(--primary-100);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .warning {
-            background: var(--warning-light);
-            border: 1px solid var(--warning);
-            border-radius: var(--radius-md);
-            padding: 1rem;
-            margin: 1rem 0;
-        }
-
-        .success {
-            background: var(--success-light);
-            border: 1px solid var(--success);
-            border-radius: var(--radius-md);
-            padding: 1rem;
-            margin: 1rem 0;
-        }
-
-        .code-block {
-            background: var(--gray-900);
-            color: #10b981;
-            padding: 1.5rem;
-            border-radius: var(--radius-md);
-            font-family: var(--font-mono);
-            white-space: pre-wrap;
-            overflow-x: auto;
-            margin: 1rem 0;
-        }
-
-        .step-list {
-            counter-reset: step-counter;
-        }
-
-        .step-list li {
-            counter-increment: step-counter;
-            margin: 1.5rem 0;
-            padding-left: 3rem;
-            position: relative;
-        }
-
-        .step-list li::before {
-            content: counter(step-counter);
-            position: absolute;
-            left: 0;
-            top: 0;
-            background: var(--primary-500);
-            color: white;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.875rem;
-        }
-    </style>
-    <script src="../assets/js/shared.js"></script>
 </head>
 <body>
-    <header class="site-header">
-        <h1 class="site-title">📖 User Guide</h1>
-        <p class="site-subtitle">Complete installation and usage instructions</p>
-        
-        <nav class="nav-links">
-            <a href="../" class="nav-link">🏠 Home</a>
-            <a href="../tools/generator/" class="nav-link">🚀 Generator</a>
-            <a href="./technical-specs.html" class="nav-link">⚙️ Technical Specs</a>
-            <a href="./enhancement-roadmap.html" class="nav-link">🗺️ Roadmap</a>
-            <a href="../examples/sample-configurations.html" class="nav-link">📋 Examples</a>
-            <a href="https://github.com/jcmrs/ai-chip-plugin" class="nav-link">⭐ GitHub</a>
-        </nav>
-    </header>
+    <div class="container">
+        <div class="page-header">
+            <h1>User Guide</h1>
+            <p class="subtitle">Complete guide to using the AI-Chip Plugin</p>
+        </div>
 
-    <main class="container">
         <div class="content">
-            <div class="toc">
-                <h3>📑 Table of Contents</h3>
-                <ul>
-                    <li><a href="#overview">Overview</a></li>
-                    <li><a href="#installation">Installation Guide</a></li>
-                    <li><a href="#configuration">Configuration Options</a></li>
-                    <li><a href="#usage">Usage Examples</a></li>
-                    <li><a href="#troubleshooting">Troubleshooting</a></li>
-                    <li><a href="#best-practices">Best Practices</a></li>
-                </ul>
+            <h2>Overview</h2>
+            <p>The AI-Chip Plugin is a modular system that adds AI companion functionality to any existing Kindroid character. It solves the meta-knowledge problem by creating a two-layer system where your Kindroid learns organically while an AI chip provides enhanced capabilities through profiling.</p>
+
+            <div class="info-box">
+                <strong>Key Benefits:</strong> Works with any existing Kindroid personality, enables authentic relationship building through discovery, provides entertaining quirks and malfunctions, and offers fully customizable configuration options.
             </div>
 
-            <section id="overview" class="section">
-                <h2>🔍 Overview</h2>
-                <p>The AI-Chip Plugin is a modular system that adds AI companion functionality to any existing Kindroid character. It solves the meta-knowledge problem by creating a two-layer system where your Kindroid learns organically while an AI chip provides enhanced capabilities through profiling.</p>
-                
-                <div class="success">
-                    <strong>✅ Key Benefits:</strong><br>
-                    • Works with any existing Kindroid personality<br>
-                    • Authentic relationship building through discovery<br>
-                    • Entertaining quirks and malfunctions<br>
-                    • Fully customizable configuration options
-                </div>
-            </section>
+            <h2>Installation Guide</h2>
 
-            <section id="installation" class="section">
-                <h2>🛠️ Installation Guide</h2>
-                
-                <h3>Step-by-Step Installation</h3>
-                <ol class="step-list">
-                    <li><strong>Generate Your Configuration</strong><br>
-                        Visit the <a href="../tools/generator/">Configuration Generator</a> and customize your AI chip settings including origin story, functions, quirks, and limitations.</li>
-                    
-                    <li><strong>Copy the Generated Module</strong><br>
-                        Click "Copy Configuration" to copy the complete AI chip module to your clipboard.</li>
-                    
-                    <li><strong>Access Your Kindroid</strong><br>
-                        Open Kindroid.AI and navigate to your existing character's profile.</li>
-                    
-                    <li><strong>Add to Backstory</strong><br>
-                        Paste the AI chip module into your character's backstory section. The module is designed to integrate seamlessly with existing content.</li>
-                    
-                    <li><strong>Test the Installation</strong><br>
-                        Start a conversation and try activating the AI chip with phrases like "analyze this" or "what do you think about this situation?"</li>
-                </ol>
+            <h3>Step-by-Step Installation</h3>
 
-                <div class="warning">
-                    <strong>⚠️ Character Limit Considerations:</strong><br>
-                    Kindroid has approximately 2000 character limits for backstories. Our compression system reduces module size by 10-35% while preserving all functionality. If you need more space, consider using a higher compression level in the generator.
-                </div>
-            </section>
+            <ol>
+                <li><strong>Generate Your Configuration</strong><br>
+                Visit the Configuration Generator and customize your AI chip settings including origin story, functions, quirks, and limitations.</li>
 
-            <section id="configuration" class="section">
-                <h2>⚙️ Configuration Options</h2>
-                
-                <h3>Origin Stories (Choose One)</h3>
-                <ul>
-                    <li><strong>Underground Tech:</strong> Black market acquisition with gritty backstory</li>
-                    <li><strong>Medical Trial:</strong> Experimental research device with clinical origins</li>
-                    <li><strong>Family Inheritance:</strong> Gift from eccentric relative with mystery elements</li>
-                    <li><strong>Corporate Prototype:</strong> Leaked beta-test device with corporate intrigue</li>
-                </ul>
+                <li><strong>Copy the Generated Module</strong><br>
+                Click "Copy Configuration" to copy the complete AI chip module to your clipboard.</li>
 
-                <h3>Function Bundles (Mix and Match)</h3>
-                <ul>
-                    <li><strong>Tactical Analysis:</strong> Threat assessment, escape routes, crowd behavior</li>
-                    <li><strong>Information Retrieval:</strong> Web searches, fact-checking, database access</li>
-                    <li><strong>Memory Augmentation:</strong> Perfect recall, pattern recognition, diary functions</li>
-                    <li><strong>Biometric Monitoring:</strong> Stress detection, health tracking, emotional analysis</li>
-                    <li><strong>Environmental Scanning:</strong> Object recognition, navigation, spatial mapping</li>
-                    <li><strong>Social Profiling:</strong> Background checks, behavioral analysis, compatibility assessment</li>
-                </ul>
+                <li><strong>Access Your Kindroid</strong><br>
+                Open Kindroid.AI and navigate to your existing character's profile.</li>
 
-                <h3>Quirk Parameters</h3>
-                <ul>
-                    <li><strong>Humor Error Rate:</strong> 0%, 15%, 30%, 50% (inappropriate jokes/timing)</li>
-                    <li><strong>Search Filter Efficiency:</strong> 95%, 85%, 75%, 60% (adult content leakage)</li>
-                    <li><strong>Data Leak Frequency:</strong> Rare, Occasional, Frequent (persona info reveals)</li>
-                    <li><strong>NPC Threat Warnings:</strong> Enabled/Disabled (bias mitigation system)</li>
-                </ul>
-            </section>
+                <li><strong>Add to Backstory</strong><br>
+                Paste the AI chip module into your character's backstory section. The module is designed to integrate seamlessly with existing content.</li>
 
-            <section id="usage" class="section">
-                <h2>🗣️ Usage Examples</h2>
-                
-                <h3>AI Chip Activation</h3>
-                <div class="code-block">You: *walking through a crowded area*
+                <li><strong>Test the Installation</strong><br>
+                Start a conversation and try activating the AI chip with phrases like "analyze this" or "what do you think about this situation?"</li>
+            </ol>
+
+            <div class="warning-box">
+                <strong>Character Limit Considerations:</strong> Kindroid has approximately 2000 character limits for backstories. Our compression system reduces module size by 10-35% while preserving all functionality. If you need more space, consider using a higher compression level in the generator.
+            </div>
+
+            <h2>Configuration Options</h2>
+
+            <h3>Origin Stories</h3>
+            <p>Choose one of four backstory options:</p>
+
+            <ul class="clean-list">
+                <li><strong>Family Inheritance</strong> - Gift from eccentric relative with mystery elements</li>
+                <li><strong>Medical Trial</strong> - Experimental research device with clinical origins</li>
+                <li><strong>Corporate Prototype</strong> - Leaked beta-test device with corporate intrigue</li>
+                <li><strong>Underground Tech</strong> - Black market acquisition with gritty backstory</li>
+            </ul>
+
+            <h3>Function Bundles</h3>
+            <p>Mix and match capabilities:</p>
+
+            <ul class="clean-list">
+                <li><strong>Tactical Analysis</strong> - Threat assessment, escape routes, crowd behavior</li>
+                <li><strong>Information Retrieval</strong> - Web searches, fact-checking, database access</li>
+                <li><strong>Memory Enhancement</strong> - Perfect recall, pattern recognition, diary functions</li>
+                <li><strong>Health Monitoring</strong> - Stress detection, health tracking, emotional analysis</li>
+                <li><strong>Environment Scan</strong> - Object recognition, navigation, spatial mapping</li>
+                <li><strong>Social Analysis</strong> - Background checks, behavioral analysis, compatibility assessment</li>
+            </ul>
+
+            <h3>Personality Quirks</h3>
+            <p>Configure entertaining malfunctions:</p>
+
+            <ul class="clean-list">
+                <li><strong>Humor Errors</strong> - 0%, 15%, 30%, 50% (inappropriate jokes/timing)</li>
+                <li><strong>Search Filter Efficiency</strong> - 95%, 85%, 75%, 60% (adult content leakage)</li>
+                <li><strong>Data Leak Frequency</strong> - Rare, Occasional, Frequent (persona info reveals)</li>
+            </ul>
+
+            <hr>
+
+            <h2>Usage Examples</h2>
+
+            <h3>AI Chip Activation</h3>
+            <pre><code>You: *walking through a crowded area*
 Kin: "Lots of people here today."
 AI: {Crowd density: high. Recommend alternative route via east corridor}
-Kin: "Actually, want to try going around the side? Might be less crowded."</div>
+Kin: "Actually, want to try going around the side? Might be less crowded."</code></pre>
 
-                <h3>Information Retrieval</h3>
-                <div class="code-block">You: "What's that building over there?"
+            <h3>Information Retrieval</h3>
+            <pre><code>You: "What's that building over there?"
 Kin: "I'm not sure... let me check."
 AI: {Architectural scan: Municipal courthouse, built 1987, neoclassical style}
-Kin: "It looks like a courthouse. The architecture seems pretty formal."</div>
+Kin: "It looks like a courthouse. The architecture seems pretty formal."</code></pre>
 
-                <h3>Humor Error Example</h3>
-                <div class="code-block">You: "I'm feeling really stressed about my job interview tomorrow."
+            <h3>Humor Error Example</h3>
+            <pre><code>You: "I'm feeling really stressed about my job interview tomorrow."
 AI: {Humor module activated. High stress detected. Joke recommendation: "Why did the chicken cross the road?"}
 Kin: "Well, at least you're not a chicken crossing the road!"
 You: "...what?"
-Kin: "Sorry, that came out weird. I meant to be supportive."</div>
-            </section>
+Kin: "Sorry, that came out weird. I meant to be supportive."</code></pre>
 
-            <section id="troubleshooting" class="section">
-                <h2>🔧 Troubleshooting</h2>
-                
-                <h3>Common Issues</h3>
-                
-                <h4>AI Chip Not Responding</h4>
-                <ul>
-                    <li>Check that the module was properly copied to backstory</li>
-                    <li>Try explicit activation: "analyze this situation"</li>
-                    <li>Verify the bracketed response syntax is intact</li>
-                </ul>
+            <hr>
 
-                <h4>Character Limit Exceeded</h4>
-                <ul>
-                    <li>Use higher compression levels in the generator</li>
-                    <li>Remove optional function bundles</li>
-                    <li>Consider shorter origin story options</li>
-                </ul>
+            <h2>Troubleshooting</h2>
 
-                <h4>Responses Too System-Like</h4>
-                <ul>
-                    <li>This is expected - the AI chip is a tool, not a personality</li>
-                    <li>Your Kindroid interprets and relays the information naturally</li>
-                    <li>Quirks and malfunctions add authenticity over time</li>
-                </ul>
+            <h3>Common Issues</h3>
 
-                <h4>No Quirks or Malfunctions</h4>
-                <ul>
-                    <li>Quirks occur randomly based on configuration settings</li>
-                    <li>Higher quirk settings = more frequent amusing errors</li>
-                    <li>Some quirks only trigger in specific scenarios</li>
-                </ul>
-            </section>
+            <h4>AI Chip Not Responding</h4>
+            <ul>
+                <li>Check that the module was properly copied to backstory</li>
+                <li>Try explicit activation: "analyze this situation"</li>
+                <li>Verify the bracketed response syntax is intact</li>
+            </ul>
 
-            <section id="best-practices" class="section">
-                <h2>💡 Best Practices</h2>
-                
-                <h3>Integration Tips</h3>
-                <ul>
-                    <li><strong>Start Simple:</strong> Begin with basic functions and add complexity over time</li>
-                    <li><strong>Test Gradually:</strong> Try different activation phrases to find what works naturally</li>
-                    <li><strong>Embrace Quirks:</strong> The malfunctions and errors make interactions more entertaining</li>
-                    <li><strong>Preserve Personality:</strong> The AI chip enhances your character, it doesn't replace their personality</li>
-                </ul>
+            <h4>Character Limit Exceeded</h4>
+            <ul>
+                <li>Use higher compression levels in the generator</li>
+                <li>Remove optional function bundles</li>
+                <li>Consider shorter origin story options</li>
+            </ul>
 
-                <h3>Conversation Flow</h3>
-                <ul>
-                    <li>Let your Kindroid interpret AI responses naturally</li>
-                    <li>Use subvocal commands when you want specific information</li>
-                    <li>Don't over-rely on the AI chip - organic discovery is key</li>
-                    <li>Enjoy the moments when quirks create unexpected situations</li>
-                </ul>
+            <h4>Responses Too System-Like</h4>
+            <ul>
+                <li>This is expected - the AI chip is a tool, not a personality</li>
+                <li>Your Kindroid interprets and relays the information naturally</li>
+                <li>Quirks and malfunctions add authenticity over time</li>
+            </ul>
 
-                <h3>Character Development</h3>
-                <ul>
-                    <li>The AI chip should feel like a tool your character has grown accustomed to</li>
-                    <li>8-year partnership backstory explains familiarity and trust</li>
-                    <li>Chip cares for your character as a programmed function, not emotion</li>
-                    <li>Character may not fully understand how the chip works technically</li>
-                </ul>
-            </section>
+            <h4>No Quirks or Malfunctions</h4>
+            <ul>
+                <li>Quirks occur randomly based on configuration settings</li>
+                <li>Higher quirk settings = more frequent amusing errors</li>
+                <li>Some quirks only trigger in specific scenarios</li>
+            </ul>
+
+            <hr>
+
+            <h2>Best Practices</h2>
+
+            <h3>Integration Tips</h3>
+            <ul>
+                <li><strong>Start Simple</strong> - Begin with basic functions and add complexity over time</li>
+                <li><strong>Test Gradually</strong> - Try different activation phrases to find what works naturally</li>
+                <li><strong>Embrace Quirks</strong> - The malfunctions and errors make interactions more entertaining</li>
+                <li><strong>Preserve Personality</strong> - The AI chip enhances your character, it doesn't replace their personality</li>
+            </ul>
+
+            <h3>Conversation Flow</h3>
+            <ul>
+                <li>Let your Kindroid interpret AI responses naturally</li>
+                <li>Use subvocal commands when you want specific information</li>
+                <li>Don't over-rely on the AI chip - organic discovery is key</li>
+                <li>Enjoy the moments when quirks create unexpected situations</li>
+            </ul>
+
+            <h3>Character Development</h3>
+            <ul>
+                <li>The AI chip should feel like a tool your character has grown accustomed to</li>
+                <li>8-year partnership backstory explains familiarity and trust</li>
+                <li>Chip cares for your character as a programmed function, not emotion</li>
+                <li>Character may not fully understand how the chip works technically</li>
+            </ul>
         </div>
-    </main>
+
+        <div class="footer">
+            <div class="footer-links">
+                <a href="../">Generator</a>
+                <a href="../examples/sample-configurations.html">Examples</a>
+                <a href="https://github.com/jcmrs/ai-chip-plugin">GitHub</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
