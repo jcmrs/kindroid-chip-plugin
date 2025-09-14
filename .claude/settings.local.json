@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.kindroid.ai)",
+      "Read(//c/Users/jcmei/Documents/PROJECTS/kindroid/visual-style-guide/**)",
+      "Read(//c/Users/jcmei/Documents/PROJECTS/kindroid/visual-style-guide/src/**)",
+      "Bash(start index.html)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
