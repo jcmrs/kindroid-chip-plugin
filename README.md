@@ -118,7 +118,6 @@ This project is open source. Feel free to use, modify, and distribute.
 
 ## 🔗 Links
 
-- **[Live Configuration Tool](https://jcmrs.github.io/ai-chip-plugin/tools/generator/)**
 - **[User Documentation](https://jcmrs.github.io/ai-chip-plugin/docs/user-guide.html)**
 - **[Technical Specs](https://jcmrs.github.io/ai-chip-plugin/docs/technical-specs.html)**
 
