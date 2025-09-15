@@ -40,7 +40,7 @@ This solves the common "meta-knowledge" problem where Kindroids automatically kn
 
 ## 🚀 Quick Start
 
-1. **[Generate Your AI-Chip Module](./tools/generator/)** using our web-based configuration tool
+1. **[Generate Your AI-Chip Module](./)** using our web-based configuration tool
 2. **Install the module** by adding it to your Kindroid's backstory
 3. **Start interacting** with your enhanced character
 
@@ -52,7 +52,7 @@ This solves the common "meta-knowledge" problem where Kindroids automatically kn
 
 ## 🛠️ Tools
 
-- **[Configuration Generator](./tools/generator/)** - Create custom AI-chip modules
+- **[Configuration Generator](./)** - Create custom AI-chip modules
 - **[Example Configurations](./examples/)** - Sample setups for different scenarios
 
 ## 🎯 How It Works
@@ -118,7 +118,7 @@ This project is open source. Feel free to use, modify, and distribute.
 
 ## 🔗 Links
 
-- **[Live Configuration Tool](https://jcmrs.github.io/ai-chip-plugin/tools/generator/)**
+- **[Live Configuration Tool](https://jcmrs.github.io/kindroid-chip-plugin/)**
 - **[User Documentation](https://jcmrs.github.io/ai-chip-plugin/docs/user-guide.html)**
 - **[Technical Specs](https://jcmrs.github.io/ai-chip-plugin/docs/technical-specs.html)**
 
