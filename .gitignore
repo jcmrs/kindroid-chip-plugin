@@ -29,7 +29,5 @@ Thumbs.db
 .claude/
 .mcp.json
 
-# Template backups and internal docs (development only)
-templates/backup/
-templates/docs/
-templates/feedback/
+# Templates directory (development/local only - contains project setup templates)
+templates/
