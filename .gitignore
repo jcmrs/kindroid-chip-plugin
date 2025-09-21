@@ -24,3 +24,12 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Claude Code configuration (sensitive - exclude entirely)
+.claude/
+.mcp.json
+
+# Template backups and internal docs (development only)
+templates/backup/
+templates/docs/
+templates/feedback/
